@@ -151,6 +151,25 @@ export class DevTemplateApi<SecurityDataType = unknown> extends HttpClient<Secur
    * No description
    *
    * @tags dev-template
+   * @name BatchDelete
+   * @summary 批量删除
+   * @request PUT:/api/dev/dev-template/batch-delete
+   * @secure
+   */
+  batchDelete = (data: number[], params: RequestParams = {}) =>
+    this.request<ResultOutputBoolean, any>({
+      path: `/api/dev/dev-template/batch-delete`,
+      method: 'PUT',
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: 'json',
+      ...params,
+    })
+  /**
+   * No description
+   *
+   * @tags dev-template
    * @name SoftDelete
    * @summary 软删除
    * @request DELETE:/api/dev/dev-template/soft-delete

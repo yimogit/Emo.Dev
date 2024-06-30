@@ -3,20 +3,25 @@ const path = require('path')
 const fs = require('fs')
 const axios = require('axios')
 const ejs = require('ejs')
-
 const apis = [
   {
     output: path.resolve(__dirname, '../src/api/admin'),
-    url: 'http://localhost:8000/admin/swagger/admin/swagger.json',
-    enumUrl: 'http://localhost:8000/api/admin/api/get-enums',
+    url: 'http://localhost:8000/app/swagger/admin/swagger.json',
+    // enumUrl: 'http://localhost:8000/api/admin/api/get-enums',
   },
-  // {
-  //   output: path.resolve(__dirname, '../src/api/app'),
-  //   url: 'http://localhost:8000/admin/swagger/app/swagger.json',
-  // },
+  {
+    output: path.resolve(__dirname, '../src/api/app'),
+    url: 'http://localhost:8000/app/swagger/app/swagger.json',
+  },
+  {
+    output: path.resolve(__dirname, '../src/api/dev'),
+    url: 'http://localhost:8000/app/swagger/dev/swagger.json',
+  },
 ]
 
 const genEnums = async (api) => {
+  if(!api.enumUrl)
+    return
   console.log(`✨   try to get enums by URL "${api.enumUrl}"`)
   console.log(`⭐   start generating your typescript api`)
   const res = await axios.get(api.enumUrl).catch((error) => {

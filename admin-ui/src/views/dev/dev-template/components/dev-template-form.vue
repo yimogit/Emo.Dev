@@ -68,7 +68,7 @@ const formRef = ref()
 const state = reactive({
   showDialog: false,
   sureLoading: false,
-  form: {} as DevTemplateAddInput | DevTemplateUpdateInput,
+  form: {} as DevTemplateAddInput | DevTemplateUpdateInput | any,
   selectDevGroupListData: [] as DevGroupGetListOutput[],
 })
 const { form } = toRefs(state)

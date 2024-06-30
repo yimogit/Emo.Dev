@@ -58,7 +58,7 @@ const formRef = ref()
 const state = reactive({
   showDialog: false,
   sureLoading: false,
-  form: {} as DevProjectAddInput | DevProjectUpdateInput,
+  form: {} as DevProjectAddInput | DevProjectUpdateInput | any,
 })
 const { form } = toRefs(state)
 

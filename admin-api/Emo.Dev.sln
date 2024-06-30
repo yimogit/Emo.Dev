@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.sln", "01.sln", "{B5DE2B
 		src\Directory.Build.props = src\Directory.Build.props
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZhonTai.Module.Dev", "src\platform\ZhonTai.Module.Dev\ZhonTai.Module.Dev.csproj", "{5D62676B-5B73-476A-BCB9-F8218FE74CE6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{69A9CD28-39CE-415E-8150-A4A876E708FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69A9CD28-39CE-415E-8150-A4A876E708FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69A9CD28-39CE-415E-8150-A4A876E708FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D62676B-5B73-476A-BCB9-F8218FE74CE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D62676B-5B73-476A-BCB9-F8218FE74CE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D62676B-5B73-476A-BCB9-F8218FE74CE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D62676B-5B73-476A-BCB9-F8218FE74CE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +57,7 @@ Global
 		{6F47A41A-085E-4422-BB73-5A2CBAA07D9F} = {0600A063-03CE-4BE1-AE77-FCB1B496A2A6}
 		{E725F0A1-0B03-406F-B84B-0F486C6137FC} = {7D22DC19-78FC-4277-9768-06B5AF60FD14}
 		{69A9CD28-39CE-415E-8150-A4A876E708FD} = {4A1F23C8-24A6-4571-B3DE-D27D024A051D}
+		{5D62676B-5B73-476A-BCB9-F8218FE74CE6} = {7D22DC19-78FC-4277-9768-06B5AF60FD14}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AB40D0C5-E3EA-4A9B-86C2-38F0BB33FC04}

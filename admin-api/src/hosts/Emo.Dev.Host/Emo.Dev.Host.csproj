@@ -25,6 +25,7 @@
 	
 	<ItemGroup>
 		<ProjectReference Include="..\..\platform\Emo.Dev.Api\Emo.Dev.Api.csproj" />
+		<ProjectReference Include="..\..\platform\ZhonTai.Module.Dev\ZhonTai.Module.Dev.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

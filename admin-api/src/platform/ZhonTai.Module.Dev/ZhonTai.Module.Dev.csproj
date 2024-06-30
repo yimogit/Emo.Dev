@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>dev模块</Description>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="ZhonTai.Admin" Version="$(PackageZhonTaiVersion)">
+      <CopyToOutputDirectory>*\*\*.xml</CopyToOutputDirectory>
+    </PackageReference>
+  </ItemGroup>
+</Project>

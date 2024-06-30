@@ -7,7 +7,7 @@
     //跨域地址
     "corUrls": [],
     //程序集名称
-    "assemblyNames": [ "Emo.Dev.Api", "ZhonTai.Admin" ],
+    "assemblyNames": [ "Emo.Dev.Api", "ZhonTai.Admin", "ZhonTai.Module.Dev" ],
     //租户
     "tenant": true,
     //分布式事务唯一标识app，为空则不生成分布式事务表
@@ -23,7 +23,7 @@
       //接口数据权限
       "apiDataPermission": true
     },
-    //Swagger接口文档，访问路径/swagger
+    //Swagger接口文档，访问路径/swagger,
     "swagger": {
       //启用
       "enable": true,
@@ -48,13 +48,18 @@
           "code": "app",
           "version": "v8.2.0",
           "description": "Emo.Dev"
-        }
-        ,
+        },
         {
           "name": "中台Admin",
           "code": "admin",
           "version": "v8.2.0",
           "description": "权限管理"
+        },
+        {
+          "name": "代码生成",
+          "code": "dev",
+          "version": "v8.2.0",
+          "description": "代码生成"
         }
       ]
     },

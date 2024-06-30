@@ -20,6 +20,6 @@
 		<NoWarn>1701;1702;1591</NoWarn>
 		<SignAssembly>true</SignAssembly>
 		<DelaySign>false</DelaySign>
-		<AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+		<AssemblyOriginatorKeyFile>..\key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 </Project>

@@ -151,6 +151,25 @@ export class DevGroupApi<SecurityDataType = unknown> extends HttpClient<Security
    * No description
    *
    * @tags dev-group
+   * @name BatchDelete
+   * @summary 批量删除
+   * @request PUT:/api/dev/dev-group/batch-delete
+   * @secure
+   */
+  batchDelete = (data: number[], params: RequestParams = {}) =>
+    this.request<ResultOutputBoolean, any>({
+      path: `/api/dev/dev-group/batch-delete`,
+      method: 'PUT',
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: 'json',
+      ...params,
+    })
+  /**
+   * No description
+   *
+   * @tags dev-group
    * @name SoftDelete
    * @summary 软删除
    * @request DELETE:/api/dev/dev-group/soft-delete
@@ -168,6 +187,25 @@ export class DevGroupApi<SecurityDataType = unknown> extends HttpClient<Security
       method: 'DELETE',
       query: query,
       secure: true,
+      format: 'json',
+      ...params,
+    })
+  /**
+   * No description
+   *
+   * @tags dev-group
+   * @name BatchSoftDelete
+   * @summary 批量软删除
+   * @request PUT:/api/dev/dev-group/batch-soft-delete
+   * @secure
+   */
+  batchSoftDelete = (data: number[], params: RequestParams = {}) =>
+    this.request<ResultOutputBoolean, any>({
+      path: `/api/dev/dev-group/batch-soft-delete`,
+      method: 'PUT',
+      body: data,
+      secure: true,
+      type: ContentType.Json,
       format: 'json',
       ...params,
     })

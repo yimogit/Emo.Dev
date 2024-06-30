@@ -1,51 +1,21 @@
 <template>
   <div>
-    <el-dialog
-      v-model="state.showDialog"
-      destroy-on-close
-      :title="title"
-      draggable
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      width="600px"
-    >
+    <el-dialog v-model="state.showDialog" destroy-on-close :title="title" draggable :close-on-click-modal="false"
+      :close-on-press-escape="false" width="600px">
       <el-form :model="form" ref="formRef" size="default" label-width="80px">
         <el-row :gutter="35">
           <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
             <el-form-item label="上级菜单">
-              <el-tree-select
-                v-model="form.parentId"
-                :data="permissionTreeData"
-                node-key="id"
-                check-strictly
-                default-expand-all
-                render-after-expand
-                fit-input-width
-                clearable
-                filterable
-                class="w100"
-              />
+              <el-tree-select v-model="form.parentId" :data="permissionTreeData" node-key="id" check-strictly
+                default-expand-all render-after-expand fit-input-width clearable filterable class="w100" />
             </el-form-item>
           </el-col>
           <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
             <el-form-item label="API接口">
-              <el-tree-select
-                v-model="form.apiIds"
-                :data="state.apiTreeData"
-                node-key="id"
-                :props="{ label: 'path' }"
-                render-after-expand
-                fit-input-width
-                clearable
-                filterable
-                multiple
-                collapse-tags
-                collapse-tags-tooltip
-                :filter-node-method="onApiFilterNode"
-                class="w100"
-                :default-expanded-keys="state.expandRowKeys"
-                @current-change="onApiCurrentChange"
-              >
+              <el-tree-select v-model="form.apiIds" :data="state.apiTreeData" node-key="id" :props="{ label: 'path' }"
+                render-after-expand fit-input-width clearable filterable multiple collapse-tags collapse-tags-tooltip
+                :filter-node-method="onApiFilterNode" class="w100" :default-expanded-keys="state.expandRowKeys"
+                @current-change="onApiCurrentChange">
                 <template #default="{ data }">
                   <span class="my-flex my-flex-between">
                     <span>{{ data.label }}</span>
@@ -58,12 +28,14 @@
             </el-form-item>
           </el-col>
           <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-            <el-form-item label="名称" prop="label" :rules="[{ required: true, message: '请输入名称', trigger: ['blur', 'change'] }]">
+            <el-form-item label="名称" prop="label"
+              :rules="[{ required: true, message: '请输入名称', trigger: ['blur', 'change'] }]">
               <el-input v-model="form.label" clearable />
             </el-form-item>
           </el-col>
           <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-            <el-form-item label="编码" prop="code" :rules="[{ required: true, message: '请输入编码', trigger: ['blur', 'change'] }]">
+            <el-form-item label="编码" prop="code"
+              :rules="[{ required: true, message: '请输入编码', trigger: ['blur', 'change'] }]">
               <el-input v-model="form.code" clearable />
             </el-form-item>
           </el-col>
@@ -169,8 +141,8 @@ const onApiFilterNode = (value: string, data: ApiListOutput) => {
   return data.label?.indexOf(value) !== -1 || data.path?.indexOf(value) !== -1
 }
 
-const onApiCurrentChange = (data: ApiListOutput) => {
-  if (data) {
+const onApiCurrentChange = (data: ApiListOutput | any) => {
+  if (data && !data.children) {
     if (!state.form.label) {
       state.form.label = data.label
     }

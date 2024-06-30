@@ -76,7 +76,7 @@
         </member>
         <member name="T:Emo.Dev.Api.Domain.Module.Output.ModuleDataOutput">
             <summary>
-            模块导出
+            模块数据导出
             </summary>
         </member>
         <member name="P:Emo.Dev.Api.Domain.Module.Output.ModuleDataOutput.TenantId">
