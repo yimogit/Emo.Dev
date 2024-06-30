@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<Description>Emo.Dev接口宿主</Description>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile></DocumentationFile>
+		<NoWarn>1701;1702;1591</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Include="Configs\createdbsql.txt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Cronos" Version="0.8.4" />
+		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="8.1.2" />
+		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="8.1.2" />
+		<PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="8.0.0" />
+		<PackageReference Include="FreeSql.Provider.Sqlite" Version="$(PackageFreeSqlVersion)" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\..\platform\Emo.Dev.Api\Emo.Dev.Api.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="Emo.Dev.Tests" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="ZhonTai.ApiUI" Version="$(PackageZhonTaiVersion)" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Update="wwwroot\*\*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\*\*\*\*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\*\*\*\*\*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+    <Target Name="AfterTargetsPublish" AfterTargets="Publish">
+		<ItemGroup>
+			<PackageReferenceFiles Include="*\*\*\*.xml" />
+		</ItemGroup>
+		<Copy SourceFiles="@(PackageReferenceFiles)" DestinationFolder="$(PublishDir)" />
+	</Target>
+</Project>

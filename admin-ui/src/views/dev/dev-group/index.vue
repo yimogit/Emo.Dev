@@ -1,0 +1,173 @@
+﻿<template>
+<div class="my-layout">
+    <el-card class="mt8 search-box" shadow="never">
+      <el-row>
+        <el-col :span="18">
+          <el-form :inline="true" @submit.stop.prevent>
+            <el-form-item class="search-box-item"  label="模板组名称">
+              <el-input  clearable  v-model="state.filter.name" placeholder="" @keyup.enter="onQuery" >
+              </el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" icon="ele-Search" @click="onQuery">查询</el-button>
+            </el-form-item>
+          </el-form>
+        </el-col>
+        <el-col :span="6" class="text-right">
+          <el-space>
+          <el-button type="primary" icon="ele-Plus" @click="onAdd">新增</el-button>
+          </el-space>
+        </el-col>
+      </el-row>
+    </el-card>
+
+    <el-card class="my-fill mt8" shadow="never">
+      <el-table v-loading="state.loading" :data="state.devGroupListData" row-key="id" height="'100%'" style="width: 100%; height: 100%" @selection-change="selsChange">
+        
+          <el-table-column type="selection" width="50" />
+          <el-table-column prop="name" label="模板组名称" show-overflow-tooltip width />
+          <el-table-column prop="remark" label="备注" show-overflow-tooltip width />
+          <el-table-column v-auths="[perms.update,perms.softDelete,perms.delete]" label="操作" :width="actionColWidth" fixed="right">
+            <template #default="{ row }">
+              <el-button v-auth="perms.update" icon="ele-EditPen" size="small" text type="primary" @click="onEdit(row)">编辑</el-button>
+              <el-button text type="warning" v-if="perms.softDelete" @click="onSoftDelete(row)" icon="ele-DeleteFilled">删除</el-button>
+            </template>
+          </el-table-column>
+      </el-table>
+
+      <div class="my-flex my-flex-end" style="margin-top: 20px">
+        <el-pagination
+          v-model:currentPage="state.pageInput.currentPage"
+          v-model:page-size="state.pageInput.pageSize"
+          :total="state.total"
+          :page-sizes="[10, 20, 50, 100]"
+          small
+          background
+          @size-change="onSizeChange"
+          @current-change="onCurrentChange"
+          layout="total, sizes, prev, pager, next, jumper"
+        />
+      </div>
+    </el-card>
+
+    <dev-group-form ref="devGroupFormRef" :title="state.devGroupFormTitle"></dev-group-form>
+  </div>
+</template>
+
+<script lang="ts" setup name="dev/dev-group">
+import { ref, reactive, onMounted, getCurrentInstance, onBeforeMount, defineAsyncComponent, computed } from 'vue'
+import { PageInputDevGroupGetPageInput, DevGroupGetPageInput, DevGroupGetPageOutput, DevGroupGetOutput, DevGroupAddInput, DevGroupUpdateInput,
+  DevGroupGetListInput, DevGroupGetListOutput,
+} from '/@/api/dev/data-contracts'
+import { DevGroupApi } from '/@/api/dev/DevGroup'
+import eventBus from '/@/utils/mitt'
+import { auth, auths, authAll } from '/@/utils/authFunction'
+
+// 引入组件
+const DevGroupForm = defineAsyncComponent(() => import('./components/dev-group-form.vue'))
+
+const { proxy } = getCurrentInstance() as any
+
+const devGroupFormRef = ref()
+
+//权限配置
+const perms = {
+  add:'api:dev:dev-group:add',
+  update:'api:dev:dev-group:update',
+  delete:'api:dev:dev-group:delete',
+  batDelete:'api:dev:dev-group:batch-delete',
+  softDelete:'api:dev:dev-group:soft-delete',
+  batSoftDelete:'api:dev:dev-group:batch-soft-delete',
+}
+
+const actionColWidth = authAll([perms.update, perms.softDelete]) || authAll([perms.update, perms.delete]) ? 135 : 70
+
+const state = reactive({
+  loading: false,
+  devGroupFormTitle: '',
+  total: 0,
+  sels: [] as Array<DevGroupGetPageOutput>,
+  filter: {
+    name: null,
+  } as DevGroupGetPageInput | DevGroupGetListInput,
+  pageInput: {
+    currentPage: 1,
+    pageSize: 20,
+  } as PageInputDevGroupGetPageInput,
+  devGroupListData: [] as Array<DevGroupGetListOutput>,
+})
+
+onMounted(() => {
+
+  onQuery()
+  eventBus.off('refreshDevGroup')
+  eventBus.on('refreshDevGroup', async () => {
+    onQuery()
+  })
+})
+
+onBeforeMount(() => {
+  eventBus.off('refreshDevGroup')
+})
+
+
+
+const onQuery = async () => {
+  state.loading = true
+  state.pageInput.filter = state.filter
+  const res = await new DevGroupApi().getPage(state.pageInput).catch(() => {
+    state.loading = false
+  })
+
+  state.devGroupListData = res?.data?.list ?? []
+  state.total = res?.data?.total ?? 0
+  state.loading = false
+
+
+
+}
+
+const onAdd = () => {
+  state.devGroupFormTitle = '新增模板组'
+  devGroupFormRef.value.open()
+}
+
+const onEdit = (row: DevGroupGetOutput) => {
+  state.devGroupFormTitle = '编辑模板组'
+  devGroupFormRef.value.open(row)
+}
+
+const onDelete = (row: DevGroupGetOutput) => {
+  proxy.$modal
+    .confirmDelete(`确定要删除【${row.name}】?`)
+    .then(async () => {
+      await new DevGroupApi().delete({ id: row.id }, { loading: true, showSuccessMessage: true })
+      onQuery()
+    })
+    .catch(() => {})
+}
+
+const onSizeChange = (val: number) => {
+  state.pageInput.pageSize = val
+  onQuery()
+}
+
+const onCurrentChange = (val: number) => {
+  state.pageInput.currentPage = val
+  onQuery()
+}
+const selsChange = (vals: DevGroupGetPageOutput[]) => {
+  state.sels = vals
+}
+
+
+const onSoftDelete = async (row: DevGroupGetOutput) => {
+  proxy.$modal?.confirmDelete(`确定要移入回收站？`).then(async () =>{
+    const rst = await new DevGroupApi().softDelete({ id: row.id }, { loading: true, showSuccessMessage: true })
+    if(rst?.success){
+      onQuery()
+    }
+  })
+}
+
+</script>
