@@ -31,7 +31,13 @@ namespace ZhonTai.Module.Dev.Domain.DevTemplate
         /// </summary>
         /// <remarks></remarks>
         [Column(Position=3, StringLength=500)]
-        public string? Path { get; set; }
+        public string? OutTo { get; set; }
+        /// <summary>
+        /// 是否禁用
+        /// </summary>
+        /// <remarks></remarks>
+        [Column(Position=4)]
+        public bool IsDisable { get; set; }
         /// <summary>
         /// 模板内容
         /// </summary>

@@ -11,4 +11,16 @@
       <CopyToOutputDirectory>*\*\*.xml</CopyToOutputDirectory>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="RazorEngine.NetCore" Version="3.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Configs\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

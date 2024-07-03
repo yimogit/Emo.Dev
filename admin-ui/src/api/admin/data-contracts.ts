@@ -108,16 +108,6 @@ export interface ApiEntity {
   permissions?: PermissionEntity[] | null
 }
 
-/** 枚举 */
-export interface ApiGetEnumsOutput {
-  /** 名称 */
-  name?: string | null
-  /** 描述 */
-  desc?: string | null
-  /** 选项列表 */
-  options?: Options[] | null
-}
-
 export interface ApiGetOutput {
   /**
    * 所属模块
@@ -1090,19 +1080,6 @@ export interface OprationLogListOutput {
    * @format date-time
    */
   createdTime?: string | null
-}
-
-/** 选项 */
-export interface Options {
-  /** 名称 */
-  name?: string | null
-  /** 描述 */
-  desc?: string | null
-  /**
-   * 值
-   * @format int64
-   */
-  value?: number
 }
 
 /** 添加 */
@@ -2550,7 +2527,7 @@ export interface RegionAddInput {
   parentId?: number
   /** 名称 */
   name?: string | null
-  /** 地区级别:Province=1,City=2,County=3,Town(镇/乡)=4,Vilage(村/社区)=5 */
+  /** 地区级别:Province=1,City=2,County=3,Town=4,Vilage=5 */
   level?: RegionLevel
   /** 代码 */
   code?: string | null
@@ -2575,7 +2552,7 @@ export interface RegionGetChildListOutput {
   id?: number
   /** 名称 */
   name?: string | null
-  /** 地区级别:Province=1,City=2,County=3,Town(镇/乡)=4,Vilage(村/社区)=5 */
+  /** 地区级别:Province=1,City=2,County=3,Town=4,Vilage=5 */
   level?: RegionLevel
   /** 拼音 */
   pinyin?: string | null
@@ -2609,7 +2586,7 @@ export interface RegionGetOutput {
   parentId?: number
   /** 名称 */
   name?: string | null
-  /** 地区级别:Province=1,City=2,County=3,Town(镇/乡)=4,Vilage(村/社区)=5 */
+  /** 地区级别:Province=1,City=2,County=3,Town=4,Vilage=5 */
   level?: RegionLevel
   /** 代码 */
   code?: string | null
@@ -2640,8 +2617,6 @@ export interface RegionGetPageInput {
   parentId?: number | null
   /** 名称 */
   name?: string | null
-  /** 地区级别:Province=1,City=2,County=3,Town(镇/乡)=4,Vilage(村/社区)=5 */
-  level?: RegionLevel
   /** 热门 */
   hot?: boolean | null
   /** 启用 */
@@ -2661,8 +2636,6 @@ export interface RegionGetPageOutput {
   parentId?: number
   /** 名称 */
   name?: string | null
-  /** 地区级别:Province=1,City=2,County=3,Town(镇/乡)=4,Vilage(村/社区)=5 */
-  level?: RegionLevel
   /** 代码 */
   code?: string | null
   /** 拼音 */
@@ -2683,7 +2656,7 @@ export interface RegionGetPageOutput {
 }
 
 /**
- * 地区级别:Province=1,City=2,County=3,Town(镇/乡)=4,Vilage(村/社区)=5
+ * 地区级别:Province=1,City=2,County=3,Town=4,Vilage=5
  * @format int32
  */
 export type RegionLevel = 1 | 2 | 3 | 4 | 5
@@ -2719,7 +2692,7 @@ export interface RegionUpdateInput {
   parentId?: number
   /** 名称 */
   name?: string | null
-  /** 地区级别:Province=1,City=2,County=3,Town(镇/乡)=4,Vilage(村/社区)=5 */
+  /** 地区级别:Province=1,City=2,County=3,Town=4,Vilage=5 */
   level?: RegionLevel
   /** 代码 */
   code?: string | null
@@ -2936,18 +2909,6 @@ export interface ResultOutputInt64 {
    * @format int64
    */
   data?: number
-}
-
-/** 结果输出 */
-export interface ResultOutputListApiGetEnumsOutput {
-  /** 是否成功标记 */
-  success?: boolean
-  /** 编码 */
-  code?: string | null
-  /** 消息 */
-  msg?: string | null
-  /** 数据 */
-  data?: ApiGetEnumsOutput[] | null
 }
 
 /** 结果输出 */

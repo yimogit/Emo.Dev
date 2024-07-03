@@ -2,8 +2,15 @@
   <div>
     <el-dialog v-model="state.showDialog" :title="title" draggable destroy-on-close :close-on-click-modal="false"
       :close-on-press-escape="false" class="my-dialog-form">
-      <el-form ref="formRef" :model="form" size="default" label-width="auto">
+      <el-form ref="formRef" :model="form" size="default" label-width="auto" @submit="onSure">
         <el-row :gutter="20">
+        <el-col :span="12">
+           <el-form-item label="所属项目" prop="projectId" v-show="editItemIsShow(true, true)">
+             <el-select  v-model="state.form.projectId" placeholder="" >
+               <el-option v-for="item in state.selectDevProjectListData" :key="item.id" :value="item.id" :label="item.name" />
+             </el-select>
+           </el-form-item>
+        </el-col>
         <el-col :span="12">
            <el-form-item label="模型名称" prop="name" v-show="editItemIsShow(true, true)">
              <el-input  v-model="state.form.name" placeholder="" >
@@ -16,17 +23,16 @@
              </el-input>
            </el-form-item>
         </el-col>
+        <el-col :span="12">
+           <el-form-item label="是否禁用" prop="isDisable" v-show="editItemIsShow(true, true)">
+             <el-checkbox  v-model="state.form.isDisable" placeholder="" >
+             </el-checkbox>
+           </el-form-item>
+        </el-col>
         <el-col :span="24">
            <el-form-item label="备注" prop="remark" v-show="editItemIsShow(true, true)">
              <el-input  type="textarea"  v-model="state.form.remark" placeholder="" >
              </el-input>
-           </el-form-item>
-        </el-col>
-        <el-col :span="12">
-           <el-form-item label="所属项目" prop="projectId" v-show="editItemIsShow(true, true)">
-             <el-select  v-model="state.form.projectId" placeholder="" >
-               <el-option v-for="item in state.selectDevProjectListData" :key="item.id" :value="item.id" :label="item.name" />
-             </el-select>
            </el-form-item>
         </el-col>
         </el-row>
@@ -103,10 +109,11 @@ const getDevProjectList = async () => {
 
 const defaultToAdd = (): DevProjectModelAddInput => {
   return {
+    projectId: 0,
     name: "",
     code: "",
+    isDisable: false,
     remark: null,
-    projectId: 0,
   } as DevProjectModelAddInput
 }
 

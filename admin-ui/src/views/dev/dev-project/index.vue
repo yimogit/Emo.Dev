@@ -26,6 +26,8 @@
                 <el-dropdown-menu>
                     <el-dropdown-item v-if="auth(perms.batSoftDelete)" :disabled="state.sels.length==0" @click="onBatchSoftDelete" icon="ele-DeleteFilled">批量删除</el-dropdown-item>
                     <el-dropdown-item v-if="auth(perms.batDelete)"  :disabled="state.sels.length==0" @click="onBatchDelete" icon="ele-Delete">批量删除</el-dropdown-item>
+                  <el-dropdown-item :disabled="state.sels.length == 0" @click="batchGenCode"
+                    icon="ele-Delete">批量生成代码</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -40,6 +42,8 @@
           <el-table-column type="selection" width="50" />
           <el-table-column prop="name" label="项目名称" show-overflow-tooltip width />
           <el-table-column prop="code" label="项目编码" show-overflow-tooltip width />
+          <el-table-column prop="isDisable" label="是否禁用" show-overflow-tooltip width />
+          <el-table-column prop="groupId_Text" label="使用模板组" show-overflow-tooltip width />
           <el-table-column prop="remark" label="备注" show-overflow-tooltip width />
           <el-table-column v-auths="[perms.update,perms.softDelete,perms.delete]" label="操作" :width="actionColWidth" fixed="right">
             <template #default="{ row }">
@@ -84,8 +88,11 @@
 import { ref, reactive, onMounted, getCurrentInstance, onBeforeMount, defineAsyncComponent, computed } from 'vue'
 import { PageInputDevProjectGetPageInput, DevProjectGetPageInput, DevProjectGetPageOutput, DevProjectGetOutput, DevProjectAddInput, DevProjectUpdateInput,
   DevProjectGetListInput, DevProjectGetListOutput,
+  DevGroupGetListOutput,
+  DevGroupGetOutput,                    
 } from '/@/api/dev/data-contracts'
 import { DevProjectApi } from '/@/api/dev/DevProject'
+import { DevGroupApi } from '/@/api/dev/DevGroup'
 import eventBus from '/@/utils/mitt'
 import { auth, auths, authAll } from '/@/utils/authFunction'
 
@@ -122,10 +129,12 @@ const state = reactive({
     pageSize: 20,
   } as PageInputDevProjectGetPageInput,
   devProjectListData: [] as Array<DevProjectGetListOutput>,
+  selectDevGroupListData: [] as DevGroupGetListOutput[],
 })
 
 onMounted(() => {
 
+  getDevGroupList();
   onQuery()
   eventBus.off('refreshDevProject')
   eventBus.on('refreshDevProject', async () => {
@@ -137,6 +146,12 @@ onBeforeMount(() => {
   eventBus.off('refreshDevProject')
 })
 
+const getDevGroupList = async () => {
+  const res = await new DevGroupApi().getList({}).catch(() => {
+    state.selectDevGroupListData = []
+  })
+  state.selectDevGroupListData = res?.data || []
+}
 
 
 const onQuery = async () => {
@@ -212,5 +227,13 @@ const onBatchSoftDelete = async () => {
       onQuery()
     }
   })
+}
+const batchGenCode = async () => {
+  if (state.sels.length == 0)
+    return proxy.$modal.msgWarning('请选择要生成的项目')
+
+  await new DevProjectApi().batchGenerate(state.sels.map(s => s.id) as number[], {
+    groupId: state.sels[0].groupId
+  }, { loading: true, showSuccessMessage: true })
 }
 </script>

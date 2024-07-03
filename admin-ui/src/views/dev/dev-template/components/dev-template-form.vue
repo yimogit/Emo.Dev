@@ -2,7 +2,7 @@
   <div>
     <el-dialog v-model="state.showDialog" :title="title" draggable destroy-on-close :close-on-click-modal="false"
       :close-on-press-escape="false" class="my-dialog-form">
-      <el-form ref="formRef" :model="form" size="default" label-width="auto">
+      <el-form ref="formRef" :model="form" size="default" label-width="auto" @submit="onSure">
         <el-row :gutter="20">
         <el-col :span="12">
            <el-form-item label="模板名称" prop="name" v-show="editItemIsShow(true, true)">
@@ -18,9 +18,15 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-           <el-form-item label="生成路径" prop="path" v-show="editItemIsShow(true, true)">
-             <el-input  v-model="state.form.path" placeholder="" >
+           <el-form-item label="生成路径" prop="outTo" v-show="editItemIsShow(true, true)">
+             <el-input  v-model="state.form.outTo" placeholder="" >
              </el-input>
+           </el-form-item>
+        </el-col>
+        <el-col :span="12">
+           <el-form-item label="是否禁用" prop="isDisable" v-show="editItemIsShow(true, true)">
+             <el-checkbox  v-model="state.form.isDisable" placeholder="" >
+             </el-checkbox>
            </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -105,7 +111,8 @@ const defaultToAdd = (): DevTemplateAddInput => {
   return {
     name: "",
     groupId: 0,
-    path: null,
+    outTo: null,
+    isDisable: false,
     content: "",
   } as DevTemplateAddInput
 }

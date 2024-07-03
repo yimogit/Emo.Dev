@@ -77,7 +77,9 @@ namespace ZhonTai.Module.Dev.Services.DevTemplate.Dto
         ///<summary>模板分组显示文本</summary>
         public string? GroupId_Text { get; set; }
         /// <summary>生成路径</summary>
-        public string? Path { get; set; }
+        public string? OutTo { get; set; }
+        /// <summary>是否禁用</summary>
+        public bool IsDisable { get; set; }
         /// <summary>模板内容</summary>
         public string Content { get; set; }
     }
@@ -95,7 +97,9 @@ namespace ZhonTai.Module.Dev.Services.DevTemplate.Dto
         ///<summary>模板分组显示文本</summary>
         public string? GroupId_Text { get; set; }
         /// <summary>生成路径</summary>
-        public string? Path { get; set; }
+        public string? OutTo { get; set; }
+        /// <summary>是否禁用</summary>
+        public bool IsDisable { get; set; }
         /// <summary>模板内容</summary>
         public string Content { get; set; }
     }
@@ -114,7 +118,9 @@ namespace ZhonTai.Module.Dev.Services.DevTemplate.Dto
         ///<summary>模板分组显示文本</summary>
         public string? GroupId_Text { get; set; }
         /// <summary>生成路径</summary>
-        public string? Path { get; set; }
+        public string? OutTo { get; set; }
+        /// <summary>是否禁用</summary>
+        public bool IsDisable { get; set; }
         /// <summary>模板内容</summary>
         public string Content { get; set; }
     }
@@ -137,7 +143,10 @@ namespace ZhonTai.Module.Dev.Services.DevTemplate.Dto
         [Required(ErrorMessage = "模板分组不能为空")]
         public long GroupId { get; set; }                                                    
         /// <summary>生成路径</summary>
-        public string? Path { get; set; }                                                    
+        public string? OutTo { get; set; }                                                    
+        /// <summary>是否禁用</summary>
+        [Required(ErrorMessage = "是否禁用不能为空")]
+        public bool IsDisable { get; set; }                                                    
         /// <summary>模板内容</summary>
         [Required(ErrorMessage = "模板内容不能为空")]
         public string Content { get; set; }                                                    
@@ -154,7 +163,10 @@ namespace ZhonTai.Module.Dev.Services.DevTemplate.Dto
         [Required(ErrorMessage = "模板分组不能为空")]
         public long GroupId { get; set; }
         /// <summary>生成路径</summary>
-        public string? Path { get; set; }
+        public string? OutTo { get; set; }
+        /// <summary>是否禁用</summary>
+        [Required(ErrorMessage = "是否禁用不能为空")]
+        public bool IsDisable { get; set; }
         /// <summary>模板内容</summary>
         [Required(ErrorMessage = "模板内容不能为空")]
         public string Content { get; set; }

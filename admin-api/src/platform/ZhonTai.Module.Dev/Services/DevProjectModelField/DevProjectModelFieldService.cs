@@ -59,11 +59,19 @@ namespace ZhonTai.Module.Dev.Services.DevProjectModelField
         public async Task<IEnumerable<DevProjectModelFieldGetListOutput>> GetListAsync(DevProjectModelFieldGetListInput input)
         {
             var list = await _devProjectModelFieldRepository.Select
-                .WhereIf(!string.IsNullOrEmpty(input.Name), a=>a.Name == input.Name)
                 .WhereIf(input.ModelId != null, a=>a.ModelId == input.ModelId)
+                .WhereIf(!string.IsNullOrEmpty(input.Name), a=>a.Name == input.Name)
                 .OrderByDescending(a => a.Id)
                 .ToListAsync<DevProjectModelFieldGetListOutput>();
-            return list;
+            var dictRepo = LazyGetRequiredService<IDictRepository>();
+            var dictList = await dictRepo.Where(w => new string[] { "fieldType", "fieldProperties" }
+                .Contains(w.DictType.Code)).ToListAsync();
+            return list.Select(s =>
+            {
+                s.DataTypeDictName = dictList.FirstOrDefault(f => f.DictType.Code == "fieldType" && f.Value == s.DataType)?.Name;
+                s.PropertiesDictName = dictList.FirstOrDefault(f => f.DictType.Code == "fieldProperties" && f.Value == s.Properties)?.Name;
+               return s;
+            });
         }
         /// <summary>
         /// 分页查询
@@ -76,13 +84,24 @@ namespace ZhonTai.Module.Dev.Services.DevProjectModelField
             var filter = input.Filter;
             var list = await _devProjectModelFieldRepository.Select
                 .WhereDynamicFilter(input.DynamicFilter)
-                .WhereIf(filter !=null && !string.IsNullOrEmpty(filter.Name), a=>a.Name == filter.Name)
                 .WhereIf(filter !=null && filter.ModelId != null, a=>a.ModelId == filter.ModelId)
+                .WhereIf(filter !=null && !string.IsNullOrEmpty(filter.Name), a=>a.Name == filter.Name)
                 .Count(out var total)
                 .OrderByDescending(c => c.Id)
                 .Page(input.CurrentPage, input.PageSize)
                 .ToListAsync<DevProjectModelFieldGetPageOutput>();
         
+            var dictRepo = LazyGetRequiredService<IDictRepository>();
+            var dictList = await dictRepo.Where(w => new string[] { "fieldType", "fieldProperties" }
+                .Contains(w.DictType.Code)).ToListAsync();
+            
+            list = list.Select(s =>
+            {
+                s.DataTypeDictName = dictList.FirstOrDefault(f => f.DictType.Code == "fieldType" && f.Value == s.DataType)?.Name;
+                s.PropertiesDictName = dictList.FirstOrDefault(f => f.DictType.Code == "fieldProperties" && f.Value == s.Properties)?.Name;
+            
+               return s;
+            }).ToList();
 
             //关联查询代码
             //数据转换-单个关联

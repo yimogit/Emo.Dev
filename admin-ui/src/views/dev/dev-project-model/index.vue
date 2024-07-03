@@ -4,6 +4,11 @@
       <el-row>
         <el-col :span="18">
           <el-form :inline="true" @submit.stop.prevent>
+            <el-form-item class="search-box-item"  label="所属项目">
+              <el-select  clearable  v-model="state.filter.projectId" placeholder="" @keyup.enter="onQuery" >
+                <el-option v-for="item in state.selectDevProjectListData" :key="item.id" :value="item.id" :label="item.name" />
+              </el-select>
+            </el-form-item>
             <el-form-item class="search-box-item"  label="模型名称">
               <el-input  clearable  v-model="state.filter.name" placeholder="" @keyup.enter="onQuery" >
               </el-input>
@@ -11,11 +16,6 @@
             <el-form-item class="search-box-item"  label="模型编码">
               <el-input  clearable  v-model="state.filter.code" placeholder="" @keyup.enter="onQuery" >
               </el-input>
-            </el-form-item>
-            <el-form-item class="search-box-item"  label="所属项目">
-              <el-select  clearable  v-model="state.filter.projectId" placeholder="" @keyup.enter="onQuery" >
-                <el-option v-for="item in state.selectDevProjectListData" :key="item.id" :value="item.id" :label="item.name" />
-              </el-select>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" icon="ele-Search" @click="onQuery">查询</el-button>
@@ -43,10 +43,11 @@
       <el-table v-loading="state.loading" :data="state.devProjectModelListData" row-key="id" height="'100%'" style="width: 100%; height: 100%" @selection-change="selsChange">
         
           <el-table-column type="selection" width="50" />
+          <el-table-column prop="projectId_Text" label="所属项目" show-overflow-tooltip width />
           <el-table-column prop="name" label="模型名称" show-overflow-tooltip width />
           <el-table-column prop="code" label="模型编码" show-overflow-tooltip width />
+          <el-table-column prop="isDisable" label="是否禁用" show-overflow-tooltip width />
           <el-table-column prop="remark" label="备注" show-overflow-tooltip width />
-          <el-table-column prop="projectId_Text" label="所属项目" show-overflow-tooltip width />
           <el-table-column v-auths="[perms.update,perms.softDelete,perms.delete]" label="操作" :width="actionColWidth" fixed="right">
             <template #default="{ row }">
               <el-button v-auth="perms.update" icon="ele-EditPen" size="small" text type="primary" @click="onEdit(row)">编辑</el-button>
@@ -123,9 +124,9 @@ const state = reactive({
   total: 0,
   sels: [] as Array<DevProjectModelGetPageOutput>,
   filter: {
+    projectId: null,
     name: null,
     code: null,
-    projectId: null,
   } as DevProjectModelGetPageInput | DevProjectModelGetListInput,
   pageInput: {
     currentPage: 1,

@@ -30,7 +30,7 @@ namespace ZhonTai.Module.Dev.Services.DevProjectModel
     /// 项目模型服务
     /// </summary>
     [DynamicApi(Area = DevConsts.AreaName)]
-    public class DevProjectModelService : BaseService, IDevProjectModelService, IDynamicApi
+    public partial class DevProjectModelService : BaseService, IDevProjectModelService, IDynamicApi
     {
         private IDevProjectModelRepository _devProjectModelRepository => LazyGetRequiredService<IDevProjectModelRepository>();
 
@@ -59,9 +59,9 @@ namespace ZhonTai.Module.Dev.Services.DevProjectModel
         public async Task<IEnumerable<DevProjectModelGetListOutput>> GetListAsync(DevProjectModelGetListInput input)
         {
             var list = await _devProjectModelRepository.Select
+                .WhereIf(input.ProjectId != null, a=>a.ProjectId == input.ProjectId)
                 .WhereIf(!string.IsNullOrEmpty(input.Name), a=>a.Name == input.Name)
                 .WhereIf(!string.IsNullOrEmpty(input.Code), a=>a.Code == input.Code)
-                .WhereIf(input.ProjectId != null, a=>a.ProjectId == input.ProjectId)
                 .OrderByDescending(a => a.Id)
                 .ToListAsync<DevProjectModelGetListOutput>();
             return list;
@@ -77,9 +77,9 @@ namespace ZhonTai.Module.Dev.Services.DevProjectModel
             var filter = input.Filter;
             var list = await _devProjectModelRepository.Select
                 .WhereDynamicFilter(input.DynamicFilter)
+                .WhereIf(filter !=null && filter.ProjectId != null, a=>a.ProjectId == filter.ProjectId)
                 .WhereIf(filter !=null && !string.IsNullOrEmpty(filter.Name), a=> a.Name != null && a.Name.Contains(filter.Name))
                 .WhereIf(filter !=null && !string.IsNullOrEmpty(filter.Code), a=> a.Code != null && a.Code.Contains(filter.Code))
-                .WhereIf(filter !=null && filter.ProjectId != null, a=>a.ProjectId == filter.ProjectId)
                 .Count(out var total)
                 .OrderByDescending(c => c.Id)
                 .Page(input.CurrentPage, input.PageSize)

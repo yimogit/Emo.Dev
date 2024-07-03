@@ -2,8 +2,15 @@
   <div>
     <el-dialog v-model="state.showDialog" :title="title" draggable destroy-on-close :close-on-click-modal="false"
       :close-on-press-escape="false" class="my-dialog-form">
-      <el-form ref="formRef" :model="form" size="default" label-width="auto">
+      <el-form ref="formRef" :model="form" size="default" label-width="auto" @submit="onSure">
         <el-row :gutter="20">
+        <el-col :span="12">
+           <el-form-item label="所属模型" prop="modelId" v-show="editItemIsShow(true, true)">
+             <el-select  clearable  v-model="state.form.modelId" placeholder="" >
+               <el-option v-for="item in state.selectDevProjectModelListData" :key="item.id" :value="item.id" :label="item.name" />
+             </el-select>
+           </el-form-item>
+        </el-col>
         <el-col :span="12">
            <el-form-item label="字段名称" prop="name" v-show="editItemIsShow(true, true)">
              <el-input  v-model="state.form.name" placeholder="" >
@@ -11,21 +18,22 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-           <el-form-item label="字段描述" prop="description" v-show="editItemIsShow(true, true)">
-             <el-input  v-model="state.form.description" placeholder="" >
+           <el-form-item label="字段编码" prop="code" v-show="editItemIsShow(true, true)">
+             <el-input  v-model="state.form.code" placeholder="" >
              </el-input>
            </el-form-item>
         </el-col>
         <el-col :span="12">
            <el-form-item label="字段类型" prop="dataType" v-show="editItemIsShow(true, true)">
-             <el-input  v-model="state.form.dataType" placeholder="" >
-             </el-input>
+             <el-select  clearable  v-model="state.form.dataType" placeholder="" >
+               <el-option v-for="item in state.dicts['fieldType']" :key="item.value" :value="item.value" :label="item.name" />
+             </el-select>
            </el-form-item>
         </el-col>
         <el-col :span="12">
            <el-form-item label="是否必填" prop="isRequired" v-show="editItemIsShow(true, true)">
-             <el-input  v-model="state.form.isRequired" placeholder="" >
-             </el-input>
+             <el-checkbox  v-model="state.form.isRequired" placeholder="" >
+             </el-checkbox>
            </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -41,9 +49,21 @@
            </el-form-item>
         </el-col>
         <el-col :span="12">
-           <el-form-item label="模型Id" prop="modelId" v-show="editItemIsShow(true, true)">
-             <el-select  v-model="state.form.modelId" placeholder="" >
-               <el-option v-for="item in state.selectDevProjectModelListData" :key="item.id" :value="item.id" :label="item.name" />
+           <el-form-item label="字段顺序" prop="sort" v-show="editItemIsShow(true, true)">
+             <el-input-number  v-model="state.form.sort" placeholder="" >
+             </el-input-number>
+           </el-form-item>
+        </el-col>
+        <el-col :span="12">
+           <el-form-item label="字段描述" prop="description" v-show="editItemIsShow(true, true)">
+             <el-input  v-model="state.form.description" placeholder="" >
+             </el-input>
+           </el-form-item>
+        </el-col>
+        <el-col :span="12">
+           <el-form-item label="字段属性" prop="properties" v-show="editItemIsShow(true, true)">
+             <el-select  v-model="state.form.properties" placeholder="" >
+               <el-option v-for="item in state.dicts['fieldProperties']" :key="item.value" :value="item.value" :label="item.name" />
              </el-select>
            </el-form-item>
         </el-col>
@@ -70,6 +90,7 @@ import { DevProjectModelFieldApi } from '/@/api/dev/DevProjectModelField'
 import { DevProjectModelApi } from '/@/api/dev/DevProjectModel'
 import { auth, auths, authAll } from '/@/utils/authFunction'
 
+import { DictApi } from '/@/api/admin/Dict'
 
 import eventBus from '/@/utils/mitt'
 
@@ -88,6 +109,11 @@ const state = reactive({
   sureLoading: false,
   form: {} as DevProjectModelFieldAddInput | DevProjectModelFieldUpdateInput | any,
   selectDevProjectModelListData: [] as DevProjectModelGetListOutput[],
+  //字典相关
+  dicts:{
+    "fieldType":[],   
+    "fieldProperties":[],   
+  }
 })
 const { form } = toRefs(state)
 
@@ -96,6 +122,7 @@ const open = async (row: any = {}) => {
     
   getDevProjectModelList();
 
+  getDictsTree()      
 
   if (row.id > 0) {
     const res = await new DevProjectModelFieldApi().get({ id: row.id }, { loading: true }).catch(() => {
@@ -118,16 +145,25 @@ const getDevProjectModelList = async () => {
   state.selectDevProjectModelListData = res?.data || []
 }
 
+//获取需要使用的字典树
+const getDictsTree = async () => {
+  let res = await new DictApi().getList(['fieldType','fieldProperties'])
+  if(!res?.success)return;
+    state.dicts = res.data
+}
 
 const defaultToAdd = (): DevProjectModelFieldAddInput => {
   return {
+    modelId: null,
     name: "",
-    description: null,
+    code: "",
     dataType: null,
     isRequired: null,
     maxLength: null,
     minLength: null,
-    modelId: 0,
+    sort: 0,
+    description: null,
+    properties: "",
   } as DevProjectModelFieldAddInput
 }
 

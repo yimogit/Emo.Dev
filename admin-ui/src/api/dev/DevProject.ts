@@ -209,4 +209,64 @@ export class DevProjectApi<SecurityDataType = unknown> extends HttpClient<Securi
       format: 'json',
       ...params,
     })
+  /**
+   * No description
+   *
+   * @tags dev-project
+   * @name BatchGenerate
+   * @summary 批量生成
+   * @request POST:/api/dev/dev-project/batch-generate
+   * @secure
+   */
+  batchGenerate = (
+    data: number[],
+    query?: {
+      /**
+       * 模板组
+       * @format int64
+       */
+      groupId?: number
+    },
+    params: RequestParams = {}
+  ) =>
+    this.request<AxiosResponse, any>({
+      path: `/api/dev/dev-project/batch-generate`,
+      method: 'POST',
+      query: query,
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    })
+  /**
+   * No description
+   *
+   * @tags dev-project
+   * @name Generate
+   * @summary 生成
+   * @request GET:/api/dev/dev-project/generate
+   * @secure
+   */
+  generate = (
+    query?: {
+      /**
+       * 项目ID
+       * @format int64
+       */
+      id?: number
+      /**
+       * 模板组
+       * @format int64
+       */
+      groupId?: number
+    },
+    params: RequestParams = {}
+  ) =>
+    this.request<AxiosResponse, any>({
+      path: `/api/dev/dev-project/generate`,
+      method: 'GET',
+      query: query,
+      secure: true,
+      ...params,
+    })
 }

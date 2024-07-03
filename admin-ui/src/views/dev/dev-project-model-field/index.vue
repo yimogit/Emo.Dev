@@ -4,14 +4,14 @@
       <el-row>
         <el-col :span="18">
           <el-form :inline="true" @submit.stop.prevent>
+            <el-form-item class="search-box-item"  label="所属模型">
+              <el-select    clearable  v-model="state.filter.modelId" placeholder="" @keyup.enter="onQuery" >
+                <el-option v-for="item in state.selectDevProjectModelListData" :key="item.id" :value="item.id" :label="item.name" />
+              </el-select>
+            </el-form-item>
             <el-form-item class="search-box-item"  label="字段名称">
               <el-input  clearable  v-model="state.filter.name" placeholder="" @keyup.enter="onQuery" >
               </el-input>
-            </el-form-item>
-            <el-form-item class="search-box-item"  label="模型Id">
-              <el-select  clearable  v-model="state.filter.modelId" placeholder="" @keyup.enter="onQuery" >
-                <el-option v-for="item in state.selectDevProjectModelListData" :key="item.id" :value="item.id" :label="item.name" />
-              </el-select>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" icon="ele-Search" @click="onQuery">查询</el-button>
@@ -39,13 +39,16 @@
       <el-table v-loading="state.loading" :data="state.devProjectModelFieldListData" row-key="id" height="'100%'" style="width: 100%; height: 100%" @selection-change="selsChange">
         
           <el-table-column type="selection" width="50" />
+          <el-table-column prop="modelId_Text" label="所属模型" show-overflow-tooltip width />
           <el-table-column prop="name" label="字段名称" show-overflow-tooltip width />
-          <el-table-column prop="description" label="字段描述" show-overflow-tooltip width />
-          <el-table-column prop="dataType" label="字段类型" show-overflow-tooltip width />
+          <el-table-column prop="code" label="字段编码" show-overflow-tooltip width />
+          <el-table-column prop="dataTypeDictName" label="字段类型" show-overflow-tooltip width />
           <el-table-column prop="isRequired" label="是否必填" show-overflow-tooltip width />
           <el-table-column prop="maxLength" label="最大长度" show-overflow-tooltip width />
           <el-table-column prop="minLength" label="最小长度" show-overflow-tooltip width />
-          <el-table-column prop="modelId_Text" label="模型Id" show-overflow-tooltip width />
+          <el-table-column prop="sort" label="字段顺序" show-overflow-tooltip width />
+          <el-table-column prop="description" label="字段描述" show-overflow-tooltip width />
+          <el-table-column prop="propertiesDictName" label="字段属性" show-overflow-tooltip width />
           <el-table-column v-auths="[perms.update,perms.softDelete,perms.delete]" label="操作" :width="actionColWidth" fixed="right">
             <template #default="{ row }">
               <el-button v-auth="perms.update" icon="ele-EditPen" size="small" text type="primary" @click="onEdit(row)">编辑</el-button>
@@ -94,6 +97,7 @@ import { PageInputDevProjectModelFieldGetPageInput, DevProjectModelFieldGetPageI
 } from '/@/api/dev/data-contracts'
 import { DevProjectModelFieldApi } from '/@/api/dev/DevProjectModelField'
 import { DevProjectModelApi } from '/@/api/dev/DevProjectModel'
+import { DictApi } from '/@/api/admin/Dict'
 import eventBus from '/@/utils/mitt'
 import { auth, auths, authAll } from '/@/utils/authFunction'
 
@@ -122,8 +126,8 @@ const state = reactive({
   total: 0,
   sels: [] as Array<DevProjectModelFieldGetPageOutput>,
   filter: {
-    name: null,
     modelId: null,
+    name: null,
   } as DevProjectModelFieldGetPageInput | DevProjectModelFieldGetListInput,
   pageInput: {
     currentPage: 1,
@@ -131,11 +135,17 @@ const state = reactive({
   } as PageInputDevProjectModelFieldGetPageInput,
   devProjectModelFieldListData: [] as Array<DevProjectModelFieldGetListOutput>,
   selectDevProjectModelListData: [] as DevProjectModelGetListOutput[],
+  //字典相关
+  dicts:{
+    "fieldType":[],   
+    "fieldProperties":[],   
+  }
 })
 
 onMounted(() => {
 
   getDevProjectModelList();
+  getDictsTree()      
   onQuery()
   eventBus.off('refreshDevProjectModelField')
   eventBus.on('refreshDevProjectModelField', async () => {
@@ -154,6 +164,12 @@ const getDevProjectModelList = async () => {
   state.selectDevProjectModelListData = res?.data || []
 }
 
+//获取需要使用的字典树
+const getDictsTree = async () => {
+  let res = await new DictApi().getList(['fieldType','fieldProperties'])
+  if(!res?.success)return;
+    state.dicts = res.data
+}
 
 const onQuery = async () => {
   state.loading = true

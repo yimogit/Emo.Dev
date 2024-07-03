@@ -2,7 +2,7 @@
   <div>
     <el-dialog v-model="state.showDialog" :title="title" draggable destroy-on-close :close-on-click-modal="false"
       :close-on-press-escape="false" class="my-dialog-form">
-      <el-form ref="formRef" :model="form" size="default" label-width="auto">
+      <el-form ref="formRef" :model="form" size="default" label-width="auto" @submit="onSure">
         <el-row :gutter="20">
         <el-col :span="12">
            <el-form-item label="模板组名称" prop="name" v-show="editItemIsShow(true, true)">

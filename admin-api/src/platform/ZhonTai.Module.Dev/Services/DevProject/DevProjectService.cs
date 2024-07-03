@@ -30,7 +30,7 @@ namespace ZhonTai.Module.Dev.Services.DevProject
     /// 项目服务
     /// </summary>
     [DynamicApi(Area = DevConsts.AreaName)]
-    public class DevProjectService : BaseService, IDevProjectService, IDynamicApi
+    public partial class DevProjectService : BaseService, IDevProjectService, IDynamicApi
     {
         private IDevProjectRepository _devProjectRepository => LazyGetRequiredService<IDevProjectRepository>();
 
@@ -85,6 +85,18 @@ namespace ZhonTai.Module.Dev.Services.DevProject
         
 
             //关联查询代码
+            //数据转换-单个关联
+            var groupIdRows = list.Where(s => s.GroupId > 0).ToList();
+            if (groupIdRows.Any())
+            {
+                var groupIdRepo = LazyGetRequiredService<Domain.DevGroup.IDevGroupRepository>();
+                var groupIdRowsIds = groupIdRows.Select(s => s.GroupId).Distinct().ToList();
+                var groupIdRowsIdsData = await groupIdRepo.Where(s => groupIdRowsIds.Contains(s.Id)).ToListAsync(s => new { s.Id, s.Name });
+                groupIdRows.ForEach(s =>
+                {
+                    s.GroupId_Text = groupIdRowsIdsData.FirstOrDefault(s2 => s2.Id == s.GroupId)?.Name;
+                });
+            }
 
             var data = new PageOutput<DevProjectGetPageOutput> { List = list, Total = total };
         

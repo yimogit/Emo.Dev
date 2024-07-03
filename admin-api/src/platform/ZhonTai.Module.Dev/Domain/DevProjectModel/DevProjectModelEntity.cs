@@ -15,29 +15,35 @@ namespace ZhonTai.Module.Dev.Domain.DevProjectModel
     public partial class DevProjectModelEntity: EntityBase
     {
         /// <summary>
+        /// 是否禁用
+        /// </summary>
+        /// <remarks></remarks>
+        
+        public bool IsDisable { get; set; }
+        /// <summary>
+        /// 所属项目
+        /// </summary>
+        /// <remarks></remarks>
+        [Column(Position=1, Precision = 64)]
+        public long ProjectId { get; set; }
+        /// <summary>
         /// 模型名称
         /// </summary>
         /// <remarks></remarks>
-        [Column(StringLength=200)]
+        [Column(Position=2, StringLength=200)]
         public string Name { get; set; }
         /// <summary>
         /// 模型编码
         /// </summary>
         /// <remarks></remarks>
-        [Column(StringLength=200)]
+        [Column(Position=3, StringLength=200)]
         public string Code { get; set; }
         /// <summary>
         /// 备注
         /// </summary>
         /// <remarks></remarks>
-        
+        [Column(Position=4)]
         public string? Remark { get; set; }
-        /// <summary>
-        /// 所属项目
-        /// </summary>
-        /// <remarks></remarks>
-        [Column(Precision = 64)]
-        public long ProjectId { get; set; }
     }
 
 }

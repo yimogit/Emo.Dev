@@ -1,0 +1,178 @@
+﻿
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using System.Collections.Generic;
+
+using Microsoft.AspNetCore.Mvc;
+
+
+using ZhonTai.Admin.Core.Dto;
+using ZhonTai.Admin.Services;
+using ZhonTai.DynamicApi;
+using ZhonTai.DynamicApi.Attributes;
+using ZhonTai.Admin.Domain.Dict;
+
+using ZhonTai.Module.Dev.Domain.DevProject;
+using ZhonTai.Module.Dev.Services.DevProject.Dto;
+using ZhonTai.Module.Dev.Core.Consts;
+using RazorEngine.Templating;
+using System.Diagnostics;
+using ZhonTai.Module.Dev.Configs;
+using ZhonTai.Module.Dev.Domain.CodeGen;
+using ZhonTai.Module.Dev.Domain.DevProjectModel;
+using ZhonTai.Module.Dev.Domain.DevProjectModelField;
+using ZhonTai.Module.Dev.Domain.DevTemplate;
+
+
+namespace ZhonTai.Module.Dev.Services.DevProject
+{
+    /// <summary>
+    /// 项目服务
+    /// </summary>
+    public partial class DevProjectService : BaseService, IDevProjectService, IDynamicApi
+    {
+        private IDevProjectModelRepository devProjectModelRepository => LazyGetRequiredService<IDevProjectModelRepository>();
+        private IDevProjectModelFieldRepository devProjectModelFieldRepository => LazyGetRequiredService<IDevProjectModelFieldRepository>();
+        private IDevTemplateRepository devTemplateaRepository => LazyGetRequiredService<IDevTemplateRepository>();
+
+        /// <summary>
+        /// 批量生成
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <param name="groupId">模板组</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task BatchGenerateAsync(long[] ids, long groupId)
+        {
+            foreach (var id in ids)
+            {
+                await GenerateAsync(id, groupId);
+            }
+        }
+
+        /// <summary>
+        /// 生成
+        /// </summary>
+        /// <param name="id">项目ID</param>
+        /// <param name="groupId">模板组</param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task GenerateAsync(long id, long groupId)
+        {
+            //项目
+            var project = await _devProjectRepository
+                .Where(w => w.Id == id)
+                .FirstAsync();
+            //模型
+            var models = devProjectModelRepository.Where(s => s.ProjectId == project.Id).ToList();
+            //字段
+            var fields = devProjectModelFieldRepository.Where(s => models.Any(s2 => s2.Id == s.ModelId)).ToList();
+            //模板
+            var templates = devTemplateaRepository.Where(s => s.GroupId == groupId).ToList();
+            try
+            {
+                RazorEngine.Engine.Razor = RazorEngineService.Create(new RazorEngine.Configuration.
+                    TemplateServiceConfiguration
+                {
+                    EncodedStringFactory = new RazorEngine.Text.RawStringFactory()// Raw string encoding.
+                });
+            }
+            catch (Exception ex)
+            {
+                RazorEngine.Engine.Razor?.Dispose();
+                throw ResultOutput.Exception(msg: "初始化编译器失败：" + ex.Message);
+            }
+
+            var errors = new List<string>();
+            try
+            {
+                //一个个模型生成
+                foreach (var model in models)
+                {
+                    var modelFields = fields.Where(s => s.ModelId == model.Id);
+                    //模型渲染
+                    var gen = new CodeGenEntity()
+                    {
+                        BusName = model.Name,
+                        ApiAreaName = project.Code,
+                        MenuPid = project.Name,
+                        Fields = modelFields.Select(s => new CodeGenFieldEntity()
+                        {
+                            Id = model.Id,
+                            Title = s.Name,
+                            ColumnName = s.Code,
+                        })
+                    };
+                    //模型是否禁用
+                    if (model.IsDisable) continue;
+                    foreach (var tpl in templates)
+                    {
+                        //模板是否禁用
+                        if (tpl.IsDisable) continue;
+                        if (string.IsNullOrEmpty(tpl.OutTo))
+                        {
+                            errors.Add($"生成【{tpl.Name}】输出路径为空");
+                            break;
+                        }
+                        var outPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, tpl.OutTo);
+                        var outDir = Path.GetDirectoryName(outPath);
+
+                        var codeText = tpl.Content;
+                        if (!Directory.Exists(outDir))
+                            Directory.CreateDirectory(outDir);
+                        try
+                        {
+                            if (Path.Exists(outPath))
+                            {
+                                Trace.WriteLine($"文件存在：{outPath}");
+                                continue;
+                            }
+                            _RazorCompile(RazorEngine.Engine.Razor, gen, Guid.NewGuid().ToString("n") + ".tpl", codeText, outPath);
+                        }
+                        catch (Exception ex)
+                        {
+                            errors.Add($"生成【{tpl.Name}】时发生错误：{ex.Message}");
+                        }
+                    }
+                }
+                if (errors.Count > 0)
+                    throw ResultOutput.Exception(string.Join("\n", errors));
+            }
+            catch (Exception ex)
+            {
+                throw ResultOutput.Exception(ex.Message);
+            }
+            finally
+            {
+                RazorEngine.Engine.Razor.Dispose();
+            }
+        }
+        void _RazorCompile(IRazorEngineService razor, CodeGenEntity entity, string key, string code, string outfile)
+        {
+            if (razor == null) return;
+
+            //razor.Compile(new LoadedTemplateSource(code), key);
+            using (var fs = new FileStream(outfile, FileMode.Create, FileAccess.Write))
+            {
+                using (var fw = new StreamWriter(fs, Encoding.UTF8))
+                {
+                    try
+                    {
+                        razor.RunCompile(new LoadedTemplateSource(code), key, fw, entity.GetType(), entity);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new InvalidOperationException(ex.Message);
+                    }
+                }
+            }
+        }
+    }
+}

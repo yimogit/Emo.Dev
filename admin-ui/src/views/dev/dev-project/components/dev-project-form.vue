@@ -2,7 +2,7 @@
   <div>
     <el-dialog v-model="state.showDialog" :title="title" draggable destroy-on-close :close-on-click-modal="false"
       :close-on-press-escape="false" class="my-dialog-form">
-      <el-form ref="formRef" :model="form" size="default" label-width="auto">
+      <el-form ref="formRef" :model="form" size="default" label-width="auto" @submit="onSure">
         <el-row :gutter="20">
         <el-col :span="12">
            <el-form-item label="项目名称" prop="name" v-show="editItemIsShow(true, true)">
@@ -14,6 +14,19 @@
            <el-form-item label="项目编码" prop="code" v-show="editItemIsShow(true, true)">
              <el-input  v-model="state.form.code" placeholder="" >
              </el-input>
+           </el-form-item>
+        </el-col>
+        <el-col :span="12">
+           <el-form-item label="是否禁用" prop="isDisable" v-show="editItemIsShow(true, true)">
+             <el-checkbox  v-model="state.form.isDisable" placeholder="" >
+             </el-checkbox>
+           </el-form-item>
+        </el-col>
+        <el-col :span="12">
+           <el-form-item label="使用模板组" prop="groupId" v-show="editItemIsShow(true, true)">
+             <el-select  v-model="state.form.groupId" placeholder="" >
+               <el-option v-for="item in state.selectDevGroupListData" :key="item.id" :value="item.id" :label="item.name" />
+             </el-select>
            </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -38,8 +51,11 @@
 import { reactive, toRefs, getCurrentInstance, ref, defineAsyncComponent} from 'vue'
 import { DevProjectAddInput, DevProjectUpdateInput,
   DevProjectGetListInput, DevProjectGetListOutput,
+  DevGroupGetListOutput,
+  DevGroupGetOutput,
 } from '/@/api/dev/data-contracts'
 import { DevProjectApi } from '/@/api/dev/DevProject'
+import { DevGroupApi } from '/@/api/dev/DevGroup'
 import { auth, auths, authAll } from '/@/utils/authFunction'
 
 
@@ -59,12 +75,14 @@ const state = reactive({
   showDialog: false,
   sureLoading: false,
   form: {} as DevProjectAddInput | DevProjectUpdateInput | any,
+  selectDevGroupListData: [] as DevGroupGetListOutput[],
 })
 const { form } = toRefs(state)
 
 // 打开对话框
 const open = async (row: any = {}) => {
     
+  getDevGroupList();
 
 
   if (row.id > 0) {
@@ -81,12 +99,20 @@ const open = async (row: any = {}) => {
   state.showDialog = true
 }
 
+const getDevGroupList = async () => {
+  const res = await new DevGroupApi().getList({}).catch(() => {
+    state.selectDevGroupListData = []
+  })
+  state.selectDevGroupListData = res?.data || []
+}
 
 
 const defaultToAdd = (): DevProjectAddInput => {
   return {
     name: "",
     code: "",
+    isDisable: false,
+    groupId: 0,
     remark: null,
   } as DevProjectAddInput
 }
