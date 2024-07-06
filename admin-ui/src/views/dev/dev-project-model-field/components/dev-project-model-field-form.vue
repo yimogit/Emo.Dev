@@ -1,66 +1,66 @@
 ﻿<template>
   <div>
     <el-dialog v-model="state.showDialog" :title="title" draggable destroy-on-close :close-on-click-modal="false"
-      :close-on-press-escape="false" class="my-dialog-form">
-      <el-form ref="formRef" :model="form" size="default" label-width="auto" @submit="onSure">
+      :close-on-press-escape="false" class="my-dialog-model" :overflow="true">
+      <el-form ref="formRef" :model="form" size="default" label-width="auto" @submit="onSure" v-zoom="'.my-dialog-model'">
         <el-row :gutter="20">
-        <el-col :span="12">
+        <el-col :span="12" :xs="24">
            <el-form-item label="所属模型" prop="modelId" v-show="editItemIsShow(true, true)">
              <el-select  clearable  v-model="state.form.modelId" placeholder="" >
                <el-option v-for="item in state.selectDevProjectModelListData" :key="item.id" :value="item.id" :label="item.name" />
              </el-select>
            </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" :xs="24">
            <el-form-item label="字段名称" prop="name" v-show="editItemIsShow(true, true)">
              <el-input  v-model="state.form.name" placeholder="" >
              </el-input>
            </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" :xs="24">
            <el-form-item label="字段编码" prop="code" v-show="editItemIsShow(true, true)">
              <el-input  v-model="state.form.code" placeholder="" >
              </el-input>
            </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" :xs="24">
            <el-form-item label="字段类型" prop="dataType" v-show="editItemIsShow(true, true)">
              <el-select  clearable  v-model="state.form.dataType" placeholder="" >
                <el-option v-for="item in state.dicts['fieldType']" :key="item.value" :value="item.value" :label="item.name" />
              </el-select>
            </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" :xs="24">
            <el-form-item label="是否必填" prop="isRequired" v-show="editItemIsShow(true, true)">
              <el-checkbox  v-model="state.form.isRequired" placeholder="" >
              </el-checkbox>
            </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" :xs="24">
            <el-form-item label="最大长度" prop="maxLength" v-show="editItemIsShow(true, true)">
              <el-input-number  v-model="state.form.maxLength" placeholder="" >
              </el-input-number>
            </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" :xs="24">
            <el-form-item label="最小长度" prop="minLength" v-show="editItemIsShow(true, true)">
              <el-input-number  v-model="state.form.minLength" placeholder="" >
              </el-input-number>
            </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" :xs="24">
            <el-form-item label="字段顺序" prop="sort" v-show="editItemIsShow(true, true)">
              <el-input-number  v-model="state.form.sort" placeholder="" >
              </el-input-number>
            </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" :xs="24">
            <el-form-item label="字段描述" prop="description" v-show="editItemIsShow(true, true)">
              <el-input  v-model="state.form.description" placeholder="" >
              </el-input>
            </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" :xs="24">
            <el-form-item label="字段属性" prop="properties" v-show="editItemIsShow(true, true)">
              <el-select  v-model="state.form.properties" placeholder="" >
                <el-option v-for="item in state.dicts['fieldProperties']" :key="item.value" :value="item.value" :label="item.name" />

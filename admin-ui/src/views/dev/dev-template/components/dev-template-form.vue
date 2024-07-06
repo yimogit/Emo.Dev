@@ -1,35 +1,35 @@
 ﻿<template>
   <div>
     <el-dialog v-model="state.showDialog" :title="title" draggable destroy-on-close :close-on-click-modal="false"
-      :close-on-press-escape="false" class="my-dialog-form">
-      <el-form ref="formRef" :model="form" size="default" label-width="auto" @submit="onSure">
+      :close-on-press-escape="false" class="my-dialog-model" :overflow="true">
+      <el-form ref="formRef" :model="form" size="default" label-width="auto" @submit="onSure" v-zoom="'.my-dialog-model'">
         <el-row :gutter="20">
-        <el-col :span="12">
+        <el-col :span="12" :xs="24">
            <el-form-item label="模板名称" prop="name" v-show="editItemIsShow(true, true)">
              <el-input  v-model="state.form.name" placeholder="" >
              </el-input>
            </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" :xs="24">
            <el-form-item label="模板分组" prop="groupId" v-show="editItemIsShow(true, true)">
              <el-select  v-model="state.form.groupId" placeholder="" >
                <el-option v-for="item in state.selectDevGroupListData" :key="item.id" :value="item.id" :label="item.name" />
              </el-select>
            </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" :xs="24">
            <el-form-item label="生成路径" prop="outTo" v-show="editItemIsShow(true, true)">
              <el-input  v-model="state.form.outTo" placeholder="" >
              </el-input>
            </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" :xs="24">
            <el-form-item label="是否禁用" prop="isDisable" v-show="editItemIsShow(true, true)">
              <el-checkbox  v-model="state.form.isDisable" placeholder="" >
              </el-checkbox>
            </el-form-item>
         </el-col>
-        <el-col :span="24">
+        <el-col :span="24" :xs="24">
            <el-form-item label="模板内容" prop="content" v-show="editItemIsShow(true, true)">
              <el-input  type="textarea"  v-model="state.form.content" placeholder="" >
              </el-input>

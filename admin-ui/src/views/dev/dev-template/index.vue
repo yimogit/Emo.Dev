@@ -1,14 +1,14 @@
 ﻿<template>
 <div class="my-layout">
-    <el-card class="mt8 search-box" shadow="never">
+    <el-card class="my-search-box" shadow="never">
       <el-row>
-        <el-col :span="18">
-          <el-form :inline="true" @submit.stop.prevent>
-            <el-form-item class="search-box-item"  label="模板名称">
+        <el-col :span="18" :xs="24" class="my-search-box-inputs">
+          <el-form :inline="true" label-width="auto" @submit.stop.prevent>
+            <el-form-item class="my-search-box-item"  label="模板名称">
               <el-input  clearable  v-model="state.filter.name" placeholder="" @keyup.enter="onQuery" >
               </el-input>
             </el-form-item>
-            <el-form-item class="search-box-item"  label="模板分组">
+            <el-form-item class="my-search-box-item"  label="模板分组">
               <el-select  clearable  v-model="state.filter.groupId" placeholder="" @keyup.enter="onQuery" >
                 <el-option v-for="item in state.selectDevGroupListData" :key="item.id" :value="item.id" :label="item.name" />
               </el-select>
@@ -18,7 +18,7 @@
             </el-form-item>
           </el-form>
         </el-col>
-        <el-col :span="6" class="text-right">
+        <el-col :span="6" :xs="24" class="my-search-box-btns">
           <el-space>
           <el-button type="primary" v-auth="perms.add" icon="ele-Plus" @click="onAdd">新增</el-button>
             <el-dropdown :placement="'bottom-end'" v-if="auths([perms.batSoftDelete, perms.batDelete])">
@@ -36,7 +36,7 @@
     </el-card>
 
     <el-card class="my-fill mt8" shadow="never">
-      <el-table v-loading="state.loading" :data="state.devTemplateListData" row-key="id" height="'100%'" style="width: 100%; height: 100%" @selection-change="selsChange">
+      <el-table v-loading="state.loading" :data="state.devTemplateListData" row-key="id"  ref="listTableRef" @row-click="listTableToggleSelection"  @selection-change="selsChange">
         
           <el-table-column type="selection" width="50" />
           <el-table-column prop="name" label="模板名称" show-overflow-tooltip width />
@@ -46,19 +46,19 @@
           <el-table-column prop="content" label="模板内容" show-overflow-tooltip width />
           <el-table-column v-auths="[perms.update,perms.softDelete,perms.delete]" label="操作" :width="actionColWidth" fixed="right">
             <template #default="{ row }">
-              <el-button v-auth="perms.update" icon="ele-EditPen" size="small" text type="primary" @click="onEdit(row)">编辑</el-button>
+              <el-button v-auth="perms.update" icon="ele-EditPen"  text type="primary" @click.stop="onEdit(row)">编辑</el-button>
               <el-dropdown v-if="authAll([perms.delete,perms.softDelete])">
-                <el-button icon="el-icon--right" size="small" text type="danger" >操作 <el-icon class="el-icon--right"><component :is="'ele-ArrowDown'" /></el-icon></el-button>
+                <el-button icon="el-icon--right" text type="danger" >操作 <el-icon class="el-icon--right"><component :is="'ele-ArrowDown'" /></el-icon></el-button>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item v-if="auth(perms.delete)" @click="onDelete(row)" icon="ele-Delete">删除</el-dropdown-item>
-                    <el-dropdown-item v-if="auth(perms.softDelete)" @click="onSoftDelete(row)" icon="ele-DeleteFilled">软删除</el-dropdown-item>
+                    <el-dropdown-item v-if="auth(perms.delete)" @click.stop="onDelete(row)" icon="ele-Delete">删除</el-dropdown-item>
+                    <el-dropdown-item v-if="auth(perms.softDelete)" @click.stop="onSoftDelete(row)" icon="ele-DeleteFilled">软删除</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>            
               </el-dropdown>
               <span v-else style="margin-left:5px;height:inherit">
-                <el-button text type="warning" v-if="auth(perms.softDelete)" style="height:inherit" @click="onDelete(row)" icon="ele-DeleteFilled">软删除</el-button>
-                <el-button text type="danger" v-if="auth(perms.delete)" style="height:inherit" @click="onDelete(row)" icon="ele-Delete">删除</el-button>
+                <el-button text type="warning" v-if="auth(perms.softDelete)" style="height:inherit" @click.stop="onDelete(row)" icon="ele-DeleteFilled">软删除</el-button>
+                <el-button text type="danger" v-if="auth(perms.delete)" style="height:inherit" @click.stop="onDelete(row)" icon="ele-Delete">删除</el-button>
               </span>
             </template>
           </el-table-column>
@@ -70,7 +70,6 @@
           v-model:page-size="state.pageInput.pageSize"
           :total="state.total"
           :page-sizes="[10, 20, 50, 100]"
-          small
           background
           @size-change="onSizeChange"
           @current-change="onCurrentChange"
@@ -101,6 +100,7 @@ const DevTemplateForm = defineAsyncComponent(() => import('./components/dev-temp
 const { proxy } = getCurrentInstance() as any
 
 const devTemplateFormRef = ref()
+const listTableRef = ref()
 
 //权限配置
 const perms = {
@@ -112,7 +112,7 @@ const perms = {
   batSoftDelete:'api:dev:dev-template:batch-soft-delete',
 }
 
-const actionColWidth = authAll([perms.update, perms.softDelete]) || authAll([perms.update, perms.delete]) ? 135 : 70
+const actionColWidth = authAll([perms.update, perms.softDelete]) || authAll([perms.update, perms.delete]) ? 140 : 75
 
 const state = reactive({
   loading: false,
@@ -226,5 +226,8 @@ const onBatchSoftDelete = async () => {
       onQuery()
     }
   })
+}
+const listTableToggleSelection = async (row: any) => {
+  listTableRef.value!.toggleRowSelection(row)
 }
 </script>

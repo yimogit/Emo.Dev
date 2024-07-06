@@ -1,46 +1,47 @@
 ﻿<template>
   <div>
     <el-dialog v-model="state.showDialog" :title="title" draggable destroy-on-close :close-on-click-modal="false"
-      :close-on-press-escape="false" class="my-dialog-form">
-      <el-form ref="formRef" :model="form" size="default" label-width="auto" @submit="onSure">
+      :close-on-press-escape="false" class="my-dialog-model" :overflow="true">
+      <el-form ref="formRef" :model="form" label-width="auto" @submit="onSure" v-zoom="'.my-dialog-model'">
         <el-row :gutter="20">
-        <el-col :span="12">
-           <el-form-item label="项目名称" prop="name" v-show="editItemIsShow(true, true)">
-             <el-input  v-model="state.form.name" placeholder="" >
-             </el-input>
-           </el-form-item>
-        </el-col>
-        <el-col :span="12">
-           <el-form-item label="项目编码" prop="code" v-show="editItemIsShow(true, true)">
-             <el-input  v-model="state.form.code" placeholder="" >
-             </el-input>
-           </el-form-item>
-        </el-col>
-        <el-col :span="12">
-           <el-form-item label="是否禁用" prop="isDisable" v-show="editItemIsShow(true, true)">
-             <el-checkbox  v-model="state.form.isDisable" placeholder="" >
-             </el-checkbox>
-           </el-form-item>
-        </el-col>
-        <el-col :span="12">
-           <el-form-item label="使用模板组" prop="groupId" v-show="editItemIsShow(true, true)">
-             <el-select  v-model="state.form.groupId" placeholder="" >
-               <el-option v-for="item in state.selectDevGroupListData" :key="item.id" :value="item.id" :label="item.name" />
-             </el-select>
-           </el-form-item>
-        </el-col>
-        <el-col :span="24">
-           <el-form-item label="备注" prop="remark" v-show="editItemIsShow(true, true)">
-             <el-input  type="textarea"  v-model="state.form.remark" placeholder="" >
-             </el-input>
-           </el-form-item>
-        </el-col>
+          <el-col :span="12" :xs="24">
+            <el-form-item label="项目名称" prop="name">
+              <el-input v-model="state.form.name" placeholder="">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12" :xs="24">
+            <el-form-item label="项目编码" prop="code">
+              <el-input v-model="state.form.code" placeholder="">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12" :xs="24">
+            <el-form-item label="是否禁用" prop="isDisable">
+              <el-checkbox v-model="state.form.isDisable" placeholder="">
+              </el-checkbox>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12" :xs="24">
+            <el-form-item label="使用模板组" prop="groupId">
+              <el-select v-model="state.form.groupId" placeholder="">
+                <el-option v-for="item in state.selectDevGroupListData" :key="item.id" :value="item.id"
+                  :label="item.name" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24" :xs="24">
+            <el-form-item label="备注" prop="remark">
+              <el-input type="textarea" v-model="state.form.remark" placeholder="">
+              </el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="onCancel" size="default">取 消</el-button>
-          <el-button type="primary" @click="onSure" size="default" :loading="state.sureLoading">确 定</el-button>
+          <el-button @click="onCancel" >取 消</el-button>
+          <el-button type="primary" @click="onSure" :loading="state.sureLoading">确 定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -48,8 +49,9 @@
 </template>
 
 <script lang="ts" setup name="dev/dev-project/form">
-import { reactive, toRefs, getCurrentInstance, ref, defineAsyncComponent} from 'vue'
-import { DevProjectAddInput, DevProjectUpdateInput,
+import { reactive, toRefs, getCurrentInstance, ref, defineAsyncComponent } from 'vue'
+import {
+  DevProjectAddInput, DevProjectUpdateInput,
   DevProjectGetListInput, DevProjectGetListOutput,
   DevGroupGetListOutput,
   DevGroupGetOutput,
@@ -81,7 +83,7 @@ const { form } = toRefs(state)
 
 // 打开对话框
 const open = async (row: any = {}) => {
-    
+
   getDevGroupList();
 
 
@@ -148,11 +150,11 @@ const onSure = () => {
 }
 
 const editItemIsShow = (add: Boolean, edit: Boolean): Boolean => {
-    if(add && edit)return true;
-    let isEdit=state.form.id != undefined && state.form.id > 0
-    if(add && !isEdit)return true;
-    if(edit && isEdit)return true;
-    return false;
+  if (add && edit) return true;
+  let isEdit = state.form.id != undefined && state.form.id > 0
+  if (add && !isEdit) return true;
+  if (edit && isEdit) return true;
+  return false;
 }
 
 
