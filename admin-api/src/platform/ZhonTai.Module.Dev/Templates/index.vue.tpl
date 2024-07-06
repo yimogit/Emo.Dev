@@ -150,14 +150,14 @@
 }
 <template>
 <div class="my-layout">
-    <el-card class="mt8 search-box" shadow="never">
+    <el-card class="my-search-box" shadow="never">
       <el-row>
-        <el-col :span="18">
-          <el-form :inline="true" @(at)submit.stop.prevent>
+        <el-col :span="18" :xs="24" class="my-search-box-inputs">
+          <el-form :inline="true" label-width="auto" @(at)submit.stop.prevent>
             @foreach (var col in queryColumns.Where(w=>!w.IsIgnoreColumn()))
             {
                 var editor = editorName(col, out attributes, out inner,out subfix,out colWidth);
-            @:<el-form-item class="search-box-item"  label="@(col.Title)">
+            @:<el-form-item class="my-search-box-item"  label="@(col.Title)">
             @:  <@(editor)  @if(!attributes.Contains("clearable"))@("clearable") @(attributes) v-model="state.filter.@(col.ColumnName.NamingCamelCase())@(subfix)" placeholder="" @(at)keyup.enter="onQuery" >
             if(!string.IsNullOrWhiteSpace(inner)){
             @:    @(inner)
@@ -173,7 +173,7 @@
             }
           </el-form>
         </el-col>
-        <el-col :span="6" class="text-right">
+        <el-col :span="6" :xs="24" class="my-search-box-btns">
           <el-space>
           @if (gen.GenAdd){
           @:<el-button type="primary" v-auth="perms.add" icon="ele-Plus" @(at)click="onAdd">新增</el-button>
@@ -199,7 +199,7 @@
     </el-card>
 
     <el-card class="my-fill mt8" shadow="never">
-      <el-table v-loading="state.loading" :data="state.@(entityNameCc)ListData" row-key="id" height="'100%'" style="width: 100%; height: 100%" @(at)selection-change="selsChange">
+      <el-table v-loading="state.loading" :data="state.@(entityNameCc)ListData" row-key="id"  ref="listTableRef" @(at)row-click="listTableToggleSelection"  @(at)selection-change="selsChange">
         
         @if(gen.GenDelete||gen.GenSoftDelete){
           @:<el-table-column type="selection" width="50" />
@@ -235,27 +235,27 @@
               }
           <el-table-column v-auths="[perms.update,perms.softDelete,perms.delete]" label="操作" :width="actionColWidth" fixed="right">
             <template #default="{ row }">
-              <el-button v-auth="perms.update" icon="ele-EditPen" size="small" text type="primary" @(at)click="onEdit(row)">编辑</el-button>
+              <el-button v-auth="perms.update" icon="ele-EditPen"  text type="primary" @(at)click.stop="onEdit(row)">编辑</el-button>
               @if(gen.GenDelete&&gen.GenSoftDelete){
               @:<el-dropdown v-if="authAll([perms.delete,perms.softDelete])">
-              @:  <el-button icon="el-icon--right" size="small" text type="danger" >操作 <el-icon class="el-icon--right"><component :is="'ele-ArrowDown'" /></el-icon></el-button>
+              @:  <el-button icon="el-icon--right" text type="danger" >操作 <el-icon class="el-icon--right"><component :is="'ele-ArrowDown'" /></el-icon></el-button>
               @:  <template #dropdown>
               @:    <el-dropdown-menu>
-              @:      <el-dropdown-item v-if="auth(perms.delete)" @(at)click="onDelete(row)" icon="ele-Delete">删除</el-dropdown-item>
-              @:      <el-dropdown-item v-if="auth(perms.softDelete)" @(at)click="onSoftDelete(row)" icon="ele-DeleteFilled">软删除</el-dropdown-item>
+              @:      <el-dropdown-item v-if="auth(perms.delete)" @(at)click.stop="onDelete(row)" icon="ele-Delete">删除</el-dropdown-item>
+              @:      <el-dropdown-item v-if="auth(perms.softDelete)" @(at)click.stop="onSoftDelete(row)" icon="ele-DeleteFilled">软删除</el-dropdown-item>
               @:    </el-dropdown-menu>
               @:  </template>            
               @:</el-dropdown>
               @:<span v-else style="margin-left:5px;height:inherit">
-              @:  <el-button text type="warning" v-if="auth(perms.softDelete)" style="height:inherit" @(at)click="onDelete(row)" icon="ele-DeleteFilled">软删除</el-button>
-              @:  <el-button text type="danger" v-if="auth(perms.delete)" style="height:inherit" @(at)click="onDelete(row)" icon="ele-Delete">删除</el-button>
+              @:  <el-button text type="warning" v-if="auth(perms.softDelete)" style="height:inherit" @(at)click.stop="onDelete(row)" icon="ele-DeleteFilled">软删除</el-button>
+              @:  <el-button text type="danger" v-if="auth(perms.delete)" style="height:inherit" @(at)click.stop="onDelete(row)" icon="ele-Delete">删除</el-button>
               @:</span>
               }
               @if(gen.GenSoftDelete&&!gen.GenDelete){
-              @:<el-button text type="warning" v-if="auth(perms.softDelete)" @(at)click="onSoftDelete(row)" icon="ele-DeleteFilled">删除</el-button>
+              @:<el-button text type="warning" v-if="auth(perms.softDelete)" @(at)click.stop="onSoftDelete(row)" icon="ele-DeleteFilled">删除</el-button>
               }
               @if(gen.GenDelete&&!gen.GenSoftDelete){
-              @:<el-button text type="danger" v-if="auth(perms.delete)" @(at)click="onDelete(row)" icon="ele-Delete">删除</el-button>
+              @:<el-button text type="danger" v-if="auth(perms.delete)" @(at)click.stop="onDelete(row)" icon="ele-Delete">删除</el-button>
               }
             </template>
           </el-table-column>
@@ -267,7 +267,6 @@
           v-model:page-size="state.pageInput.pageSize"
           :total="state.total"
           :page-sizes="[10, 20, 50, 100]"
-          small
           background
           @(at)size-change="onSizeChange"
           @(at)current-change="onCurrentChange"
@@ -321,6 +320,7 @@ const @(entityNamePc)Form = defineAsyncComponent(() => import('./components/@(en
 const { proxy } = getCurrentInstance() as any
 
 const @(entityNameCc)FormRef = ref()
+const listTableRef = ref()
 
 //权限配置
 const perms = {
@@ -332,7 +332,7 @@ const perms = {
   batSoftDelete:'api:@(permissionArea):batch-soft-delete',
 }
 
-const actionColWidth = authAll([perms.update, perms.softDelete]) || authAll([perms.update, perms.delete]) ? 135 : 70
+const actionColWidth = authAll([perms.update, perms.softDelete]) || authAll([perms.update, perms.delete]) ? 140 : 75
 
 const state = reactive({
   loading: false,
@@ -503,5 +503,8 @@ const selsChange = (vals: @(entityNamePc)GetPageOutput[]) => {
 @:const get@(col.ColumnName)InitialIndex = (imgUrl: string) => {
 @:  return preview@(col.ColumnName)list.value.indexOf(imgUrl)
 @:}
+}
+const listTableToggleSelection = async (row: any) => {
+  listTableRef.value!.toggleRowSelection(row)
 }
 </script>

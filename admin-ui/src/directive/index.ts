@@ -1,6 +1,6 @@
 import type { App } from 'vue'
 import { authDirective } from '/@/directive/authDirective'
-import { wavesDirective, dragDirective } from '/@/directive/customDirective'
+import { wavesDirective, dragDirective, zoomDirective } from '/@/directive/customDirective'
 
 /**
  * 导出指令方法：v-xxx
@@ -15,4 +15,6 @@ export function directive(app: App) {
   wavesDirective(app)
   // 自定义拖动指令
   dragDirective(app)
+  // 自定义缩放指令
+  zoomDirective(app)
 }

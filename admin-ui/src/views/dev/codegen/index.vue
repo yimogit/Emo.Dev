@@ -1,16 +1,16 @@
 <template>
   <div>
-    <el-card class="mt8 search-box" shadow="never">
+    <el-card class="mt8 my-search-box" shadow="never">
       <el-row>
-        <el-col :span="18">
+        <el-col :span="18" :xs="24" class="my-search-box-inputs">
           <el-form inline :model="state.filter">
-            <el-form-item label="数据源" class="search-box-item">
-              <el-select v-model="state.filter.dbKey" @change="getConfigs"  clearable>
+            <el-form-item label="数据源" class="my-search-box-item">
+              <el-select v-model="state.filter.dbKey"  clearable>
                 <el-option v-for="item in state.dbKeys" :key="item.dbKey" :value="item.dbKey"
                   :label="item.dbKey"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="表名" class="search-box-item">
+            <el-form-item label="表名" class="my-search-box-item">
               <el-input clearable v-model="state.filter.tableName" placeholder="模糊搜索" @keyup.enter="getConfigs">
               </el-input>
             </el-form-item>
@@ -26,7 +26,7 @@
             </el-form-item>
           </el-form>
         </el-col>
-        <el-col :span="6" class="text-right">
+        <el-col :span="6" :xs="24" class="my-search-box-btns">
           <el-space>
             <el-button type="primary" icon="ele-Plus" @click="createTable">创建表</el-button>
             <el-dropdown :placement="'bottom-end'">
@@ -45,7 +45,7 @@
     </el-card>
 
     <el-card shadow="never" style="margin-top: 8px">
-      <el-table :data="state.configs" highlight-current-row size="default" ref="listTableRef"
+      <el-table :data="state.configs" highlight-current-row ref="listTableRef"
         @row-click="listTableToggleSelection" @row-dblclick="modifyConfig" @selection-change="selsChange">
         <el-table-column type="selection" width="50" />
         <el-table-column type="expand" fixed>
@@ -77,20 +77,20 @@
         <el-table-column label="操作" width="180" fixed="right" header-align="center">
           <template #default="scope">
             <el-space wrap :size="5">
-              <el-dropdown split-button type="primary" size="small" @click="modifyConfig(scope.row)">
+              <el-dropdown split-button type="primary" @click.stop="modifyConfig(scope.row)">
                 编辑
                 <template #dropdown>
-                  <el-dropdown-menu>
-                    <el-dropdown-item @click="generate(scope.row)">生成代码</el-dropdown-item>
-                    <el-dropdown-item @click="compile(scope.row)">生成迁移SQL</el-dropdown-item>
-                    <el-dropdown-item @click="genCompile(scope.row)">执行迁移到数据库</el-dropdown-item>
-                    <el-dropdown-item @click="genMenu(scope.row)">生成菜单数据</el-dropdown-item>
+                  <el-dropdown-menu  @click.stop>
+                    <el-dropdown-item @click.stop="generate(scope.row)">生成代码</el-dropdown-item>
+                    <el-dropdown-item @click.stop="compile(scope.row)">生成迁移SQL</el-dropdown-item>
+                    <el-dropdown-item @click.stop="genCompile(scope.row)">执行迁移到数据库</el-dropdown-item>
+                    <el-dropdown-item @click.stop="genMenu(scope.row)">生成菜单数据</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
-              <el-popconfirm title="确定删除吗？" @confirm="onDelRow(scope.row)">
+              <el-popconfirm title="确定删除吗？" @confirm.stop="onDelRow(scope.row)">
                 <template #reference>
-                  <el-button split-button size="small" icon="ele-Delete" type="danger">删除</el-button>
+                  <el-button split-button  @click.stop icon="ele-Delete" type="danger">删除</el-button>
                 </template>
               </el-popconfirm>
             </el-space>

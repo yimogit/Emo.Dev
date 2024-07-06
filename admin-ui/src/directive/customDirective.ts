@@ -1,4 +1,6 @@
 import type { App } from 'vue'
+import { isString } from 'lodash-es'
+import { nextTick } from 'vue'
 
 /**
  * 按钮波浪指令
@@ -48,7 +50,7 @@ export function wavesDirective(app: App) {
       el.addEventListener('mousedown', onCurrentClick, false)
     },
     unmounted(el) {
-      el.addEventListener('mousedown', () => {})
+      el.addEventListener('mousedown', () => { })
     },
   })
 }
@@ -173,6 +175,68 @@ export function dragDirective(app: App) {
           document.ontouchend = null
         }
       }
+    },
+  })
+}
+
+/**
+* el-dialog 的缩放指令
+* 可以传递字符串和数组
+* 当为字符串时，传递dialog的class即可，实际被缩放的元素为'.el-dialog__body'
+* 当为数组时，参数一为句柄，参数二为实际被缩放的元素
+* @description v-zoom="'.handle-class-name'"
+* @description v-zoom="['.handle-class-name', '.zoom-dom-class-name', 句柄元素高度是否跟随缩放：默认false，句柄元素宽度是否跟随缩放：默认true]"
+* @link 参考 https://github.com/build-admin/buildadmin/blob/v2/web/src/utils/directives.ts#L66
+*/
+export  function zoomDirective(app: App) {
+  app.directive('zoom', {
+    mounted(el, binding) {
+      if (!binding.value) return false
+      const zoomDomBindData = isString(binding.value) ? [binding.value, '.el-dialog__body', false, true] : binding.value
+      zoomDomBindData[1] = zoomDomBindData[1] ? zoomDomBindData[1] : '.el-dialog__body'
+      zoomDomBindData[2] = typeof zoomDomBindData[2] == 'undefined' ? false : zoomDomBindData[2]
+      zoomDomBindData[3] = typeof zoomDomBindData[3] == 'undefined' ? true : zoomDomBindData[3]
+
+      nextTick(() => {
+        const zoomDom = document.querySelector(zoomDomBindData[1]) as HTMLElement // 实际被缩放的元素
+        const zoomDomBox = document.querySelector(zoomDomBindData[0]) as HTMLElement // 动态添加缩放句柄的元素
+        const zoomHandleEl = document.createElement('div') // 缩放句柄
+        zoomHandleEl.className = 'zoom-handle'
+        zoomHandleEl.onmouseenter = () => {
+          zoomHandleEl.onmousedown = (e: MouseEvent) => {
+            const x = e.clientX
+            const y = e.clientY
+            const zoomDomWidth = zoomDom.offsetWidth
+            const zoomDomHeight = zoomDom.offsetHeight
+            const zoomDomBoxWidth = zoomDomBox.offsetWidth
+            const zoomDomBoxHeight = zoomDomBox.offsetHeight
+            document.onmousemove = (e: MouseEvent) => {
+              e.preventDefault() // 移动时禁用默认事件
+              const w = zoomDomWidth + (e.clientX - x) * 2
+              const h = zoomDomHeight + (e.clientY - y)
+
+              zoomDom.style.width = `${w}px`
+              zoomDom.style.height = `${h}px`
+
+              if (zoomDomBindData[2]) {
+                const boxH = zoomDomBoxHeight + (e.clientY - y)
+                zoomDomBox.style.height = `${boxH}px`
+              }
+              if (zoomDomBindData[3]) {
+                const boxW = zoomDomBoxWidth + (e.clientX - x) * 2
+                zoomDomBox.style.width = `${boxW}px`
+              }
+            }
+
+            document.onmouseup = function () {
+              document.onmousemove = null
+              document.onmouseup = null
+            }
+          }
+        }
+
+        zoomDomBox.appendChild(zoomHandleEl)
+      })
     },
   })
 }

@@ -1,16 +1,23 @@
-.search-box {
-  .search-box-item {
+.my-search-box {
+  .my-search-box-item {
     min-width: 150px;
   }
-
   .el-card__body {
     padding-bottom: 0px;
   }
-  .el-input{
-    width: 200px;
+  //搜索区域
+  .my-search-box-inputs{
+    .el-input{
+      width: 200px;
+    }
+  }
+  //操作按钮区域
+  .my-search-box-btns{
+    text-align: right;
+    padding-bottom: 10px;
   }
 }
-
+/*简单布局样式*/
 .text-left {
   text-align: left;
 }
@@ -31,12 +38,30 @@
   float: right;
 }
 
-/* 编辑弹框高度 */
-// .my-dialog-form {
-//   width: 60%;
-//   height: 60%;
-
-//   >.el-dialog__body {
-//     height: calc(100% - 120px);
-//   }
-// }
+/* 新增/编辑表单-s */
+.my-dialog-model {
+  overflow: hidden;
+  border-radius: var(--el-border-radius-base);
+  padding: 0;
+  .el-dialog__header {
+    padding:var(--el-dialog-padding-primary);
+    border-bottom: 1px solid var(--el-border-color-light);
+  }
+  .el-dialog__body {
+    padding: 20px;
+  }
+  &.el-dialog .el-dialog__footer {
+    box-shadow: var(--el-box-shadow);
+    padding: 10px 30px !important;
+  }
+}
+/* 新增/编辑表单-e */
+/*拖动样式*/
+.zoom-handle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  bottom: -10px;
+  right: -10px;
+  cursor: se-resize;
+}

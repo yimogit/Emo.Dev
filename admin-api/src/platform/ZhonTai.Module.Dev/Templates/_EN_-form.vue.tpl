@@ -150,13 +150,13 @@
 <template>
   <div>
     <el-dialog v-model="state.showDialog" :title="title" draggable destroy-on-close :close-on-click-modal="false"
-      :close-on-press-escape="false" class="my-dialog-form">
-      <el-form ref="formRef" :model="form" size="default" label-width="auto" @(at)submit="onSure">
+      :close-on-press-escape="false" class="my-dialog-model" :overflow="true">
+      <el-form ref="formRef" :model="form" size="default" label-width="auto" @(at)submit="onSure" v-zoom="'.my-dialog-model'">
         <el-row :gutter="20">
       @foreach(var col in gen.Fields.Where(w=>!w.IsIgnoreColumn() && ( w.WhetherAdd || w.WhetherUpdate )))
       {
         var editor = editorName(col, out attributes, out inner,out subfix,out colWidth);
-        @:<el-col :span="@(colWidth)">
+        @:<el-col :span="@(colWidth)" :xs="24">
            @:<el-form-item label="@(col.Title)" prop="@(col.ColumnName.NamingCamelCase())@(subfix)" v-show="editItemIsShow(@jsBool(col.WhetherAdd), @jsBool(col.WhetherUpdate))">
            @:  <@(editor) @(attributes) v-model="state.form.@(col.ColumnName.NamingCamelCase())@(subfix)" placeholder="@(col.Comment)" >
            if(!string.IsNullOrWhiteSpace(inner)){
