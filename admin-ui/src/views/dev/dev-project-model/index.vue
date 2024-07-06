@@ -46,7 +46,7 @@
           <el-table-column prop="projectId_Text" label="所属项目" show-overflow-tooltip width />
           <el-table-column prop="name" label="模型名称" show-overflow-tooltip width />
           <el-table-column prop="code" label="模型编码" show-overflow-tooltip width />
-          <el-table-column prop="isDisable" label="是否禁用" show-overflow-tooltip width />
+          <el-table-column prop="isEnable" label="是否启用" show-overflow-tooltip width />
           <el-table-column prop="remark" label="备注" show-overflow-tooltip width />
           <el-table-column v-auths="[perms.update,perms.softDelete,perms.delete]" label="操作" :width="actionColWidth" fixed="right">
             <template #default="{ row }">

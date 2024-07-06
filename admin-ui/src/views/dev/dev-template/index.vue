@@ -42,7 +42,7 @@
           <el-table-column prop="name" label="模板名称" show-overflow-tooltip width />
           <el-table-column prop="groupId_Text" label="模板分组" show-overflow-tooltip width />
           <el-table-column prop="outTo" label="生成路径" show-overflow-tooltip width />
-          <el-table-column prop="isDisable" label="是否禁用" show-overflow-tooltip width />
+          <el-table-column prop="isEnable" label="是否启用" show-overflow-tooltip width />
           <el-table-column prop="content" label="模板内容" show-overflow-tooltip width />
           <el-table-column v-auths="[perms.update,perms.softDelete,perms.delete]" label="操作" :width="actionColWidth" fixed="right">
             <template #default="{ row }">

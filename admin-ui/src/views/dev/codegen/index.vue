@@ -74,7 +74,7 @@
         </el-table-column>
         <el-table-column prop="authorName" label="作者" width="100"></el-table-column>
         <el-table-column prop="comment" label="备注" width></el-table-column>
-        <el-table-column label="操作" width="180" fixed="right" header-align="center">
+        <el-table-column label="操作" width="200" fixed="right" header-align="center">
           <template #default="scope">
             <el-space wrap :size="5">
               <el-dropdown split-button type="primary" @click.stop="modifyConfig(scope.row)">

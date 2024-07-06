@@ -2,7 +2,7 @@
   <div>
     <el-dialog v-model="state.showDialog" :title="title" draggable destroy-on-close :close-on-click-modal="false"
       :close-on-press-escape="false" class="my-dialog-model" :overflow="true">
-      <el-form ref="formRef" :model="form" size="default" label-width="auto" @submit="onSure" v-zoom="'.my-dialog-model'">
+      <el-form ref="formRef" :model="form" label-width="auto" @submit="onSure" v-zoom="'.my-dialog-model'">
         <el-row :gutter="20">
         <el-col :span="12" :xs="24">
            <el-form-item label="模板组名称" prop="name" v-show="editItemIsShow(true, true)">
@@ -20,8 +20,8 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="onCancel" size="default">取 消</el-button>
-          <el-button type="primary" @click="onSure" size="default" :loading="state.sureLoading">确 定</el-button>
+          <el-button @click="onCancel" >取 消</el-button>
+          <el-button type="primary" @click="onSure" :loading="state.sureLoading">确 定</el-button>
         </span>
       </template>
     </el-dialog>

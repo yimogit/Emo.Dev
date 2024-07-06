@@ -151,7 +151,7 @@
   <div>
     <el-dialog v-model="state.showDialog" :title="title" draggable destroy-on-close :close-on-click-modal="false"
       :close-on-press-escape="false" class="my-dialog-model" :overflow="true">
-      <el-form ref="formRef" :model="form" size="default" label-width="auto" @(at)submit="onSure" v-zoom="'.my-dialog-model'">
+      <el-form ref="formRef" :model="form" label-width="auto" @(at)submit="onSure" v-zoom="'.my-dialog-model'">
         <el-row :gutter="20">
       @foreach(var col in gen.Fields.Where(w=>!w.IsIgnoreColumn() && ( w.WhetherAdd || w.WhetherUpdate )))
       {
@@ -170,8 +170,8 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @(at)click="onCancel" size="default">取 消</el-button>
-          <el-button type="primary" @(at)click="onSure" size="default" :loading="state.sureLoading">确 定</el-button>
+          <el-button @(at)click="onCancel" >取 消</el-button>
+          <el-button type="primary" @(at)click="onSure" :loading="state.sureLoading">确 定</el-button>
         </span>
       </template>
     </el-dialog>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dialog v-model="state.showDialog" destroy-on-close :close-on-click-modal="false" :title="state.title" draggable
-      width="80%" class="dialog-h80">
+      class="my-dialog-model" :overflow="true">
       <template #footer>
         <span class="dialog-footer">
           <span style="float: left" v-show="state.editor == 'field'">
@@ -14,18 +14,18 @@
               <el-button type="info" @click="appendField(4)">新增通用字段</el-button>
             </el-button-group>
           </span>
-          <el-button @click="onCancel"> 取消 </el-button>
+          <el-button @click="onCancel" > 取消 </el-button>
           <el-button type="primary" @click="onSure"> 确定 </el-button>
         </span>
       </template>
-      <div>
+      <div  v-zoom="'.my-dialog-model'">
         <div style="margin-bottom: 20px;text-align: center;">
-          <el-radio-group v-model="state.editor" size="default">
+          <el-radio-group v-model="state.editor" >
             <el-radio-button label="infor">基础配置</el-radio-button>
             <el-radio-button label="field">字段配置</el-radio-button>
           </el-radio-group>
         </div>
-        <el-form ref="tableInfoFromRef" :model="state.config" label-width="auto" label-position="right"
+        <el-form ref="tableInfoFromRef"  :model="state.config" label-width="auto" label-position="right"
           v-show="state.editor == 'infor'" :rules="editRules">
           <el-row>
             <el-col :xl="8" :lg="8" :md="12" :sm="12" :xs="24">
