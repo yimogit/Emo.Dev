@@ -18,7 +18,7 @@
           <el-button type="primary" @click="onSure"> 确定 </el-button>
         </span>
       </template>
-      <div  v-zoom="'.my-dialog-model'">
+      <div  v-zoom="'.my-dialog-model'" style="min-height: 600px;">
         <div style="margin-bottom: 20px;text-align: center;">
           <el-radio-group v-model="state.editor" >
             <el-radio-button label="infor">基础配置</el-radio-button>
@@ -690,12 +690,3 @@ defineExpose({
   open,
 })
 </script>
-<style>
-.dialog-h80 {
-  height: 80%;
-}
-
-.dialog-h80>.el-dialog__body {
-  height: calc(100% - 120px);
-}
-</style>

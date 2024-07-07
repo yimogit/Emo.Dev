@@ -52,7 +52,7 @@
   }
   &.el-dialog .el-dialog__footer {
     box-shadow: var(--el-box-shadow);
-    padding: 10px 30px !important;
+    padding: 10px var(--el-dialog-padding-primary) !important;
   }
 }
 /* 新增/编辑表单-e */

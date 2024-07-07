@@ -217,7 +217,8 @@ export  function zoomDirective(app: App) {
 
               zoomDom.style.width = `${w}px`
               zoomDom.style.height = `${h}px`
-
+              //禁止选中文本
+              zoomDomBox.style.userSelect='none'
               if (zoomDomBindData[2]) {
                 const boxH = zoomDomBoxHeight + (e.clientY - y)
                 zoomDomBox.style.height = `${boxH}px`
@@ -231,6 +232,8 @@ export  function zoomDirective(app: App) {
             document.onmouseup = function () {
               document.onmousemove = null
               document.onmouseup = null
+              //释放选中
+              zoomDomBox.style.userSelect='auto'
             }
           }
         }
