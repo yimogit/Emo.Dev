@@ -70,8 +70,6 @@ namespace ZhonTai.Module.Dev.Services.DevProjectModel.Dto
         public string CreatedUserName { get; set; }
         public string ModifiedUserName { get; set; }
         public DateTime? ModifiedTime { get; set; }
-        /// <summary>是否禁用</summary>
-        public bool IsDisable { get; set; }
         /// <summary>所属项目</summary>
         public long ProjectId { get; set; }
         ///<summary>所属项目显示文本</summary>
@@ -80,6 +78,8 @@ namespace ZhonTai.Module.Dev.Services.DevProjectModel.Dto
         public string Name { get; set; }
         /// <summary>模型编码</summary>
         public string Code { get; set; }
+        /// <summary>是否启用</summary>
+        public bool IsEnable { get; set; }
         /// <summary>备注</summary>
         public string? Remark { get; set; }
     }
@@ -90,8 +90,6 @@ namespace ZhonTai.Module.Dev.Services.DevProjectModel.Dto
     /// <summary>项目模型查询结果输出</summary>
     public partial class DevProjectModelGetOutput {
         public long Id { get; set; }
-        /// <summary>是否禁用</summary>
-        public bool IsDisable { get; set; }
         /// <summary>所属项目</summary>
         public long ProjectId { get; set; }
         ///<summary>所属项目显示文本</summary>
@@ -100,6 +98,8 @@ namespace ZhonTai.Module.Dev.Services.DevProjectModel.Dto
         public string Name { get; set; }
         /// <summary>模型编码</summary>
         public string Code { get; set; }
+        /// <summary>是否启用</summary>
+        public bool IsEnable { get; set; }
         /// <summary>备注</summary>
         public string? Remark { get; set; }
     }
@@ -111,8 +111,6 @@ namespace ZhonTai.Module.Dev.Services.DevProjectModel.Dto
         public string CreatedUserName { get; set; }
         public string ModifiedUserName { get; set; }
         public DateTime? ModifiedTime { get; set; }
-        /// <summary>是否禁用</summary>
-        public bool IsDisable { get; set; }
         /// <summary>所属项目</summary>
         public long ProjectId { get; set; }
         ///<summary>所属项目显示文本</summary>
@@ -121,6 +119,8 @@ namespace ZhonTai.Module.Dev.Services.DevProjectModel.Dto
         public string Name { get; set; }
         /// <summary>模型编码</summary>
         public string Code { get; set; }
+        /// <summary>是否启用</summary>
+        public bool IsEnable { get; set; }
         /// <summary>备注</summary>
         public string? Remark { get; set; }
     }
@@ -138,9 +138,6 @@ namespace ZhonTai.Module.Dev.Services.DevProjectModel.Dto
     
     /// <summary>项目模型新增输入</summary>
     public partial class DevProjectModelAddInput {
-        /// <summary>是否禁用</summary>
-        [Required(ErrorMessage = "是否禁用不能为空")]
-        public bool IsDisable { get; set; }                                                    
         /// <summary>所属项目</summary>
         [Required(ErrorMessage = "所属项目不能为空")]
         public long ProjectId { get; set; }                                                    
@@ -150,6 +147,9 @@ namespace ZhonTai.Module.Dev.Services.DevProjectModel.Dto
         /// <summary>模型编码</summary>
         [Required(ErrorMessage = "模型编码不能为空")]
         public string Code { get; set; }                                                    
+        /// <summary>是否启用</summary>
+        [Required(ErrorMessage = "是否启用不能为空")]
+        public bool IsEnable { get; set; }                                                    
         /// <summary>备注</summary>
         public string? Remark { get; set; }                                                    
     }
@@ -158,9 +158,6 @@ namespace ZhonTai.Module.Dev.Services.DevProjectModel.Dto
     /// <summary>项目模型更新数据输入</summary>
     public partial class DevProjectModelUpdateInput {
         public long Id { get; set; }
-        /// <summary>是否禁用</summary>
-        [Required(ErrorMessage = "是否禁用不能为空")]
-        public bool IsDisable { get; set; }
         /// <summary>所属项目</summary>
         [Required(ErrorMessage = "所属项目不能为空")]
         public long ProjectId { get; set; }
@@ -170,6 +167,9 @@ namespace ZhonTai.Module.Dev.Services.DevProjectModel.Dto
         /// <summary>模型编码</summary>
         [Required(ErrorMessage = "模型编码不能为空")]
         public string Code { get; set; }
+        /// <summary>是否启用</summary>
+        [Required(ErrorMessage = "是否启用不能为空")]
+        public bool IsEnable { get; set; }
         /// <summary>备注</summary>
         public string? Remark { get; set; }
     }

@@ -1,31 +1,39 @@
 <template>
   <div>
     <el-dialog v-model="state.showDialog" destroy-on-close :close-on-click-modal="false" :title="state.title" draggable
-      class="my-dialog-model" :overflow="true">
+      class="my-dialog-model" :overflow="true" align-center>
       <template #footer>
         <span class="dialog-footer">
-          <span style="float: left" v-show="state.editor == 'field'">
-            <el-input-number v-model="state.appendCount" :min="1" style="width: 80px;margin-right:2px;margin-top:2px;"
-              controls-position="right" />
-            <el-button-group>
-              <el-button type="primary" @click="appendField(1)">新增普通字段</el-button>
-              <el-button type="info" @click="appendField(2)">新增主键</el-button>
-              <el-button type="info" @click="appendField(3)">新增租户字段</el-button>
-              <el-button type="info" @click="appendField(4)">新增通用字段</el-button>
-            </el-button-group>
-          </span>
-          <el-button @click="onCancel" > 取消 </el-button>
+
+          <el-button @click="onCancel"> 取消 </el-button>
           <el-button type="primary" @click="onSure"> 确定 </el-button>
         </span>
       </template>
-      <div  v-zoom="'.my-dialog-model'" style="min-height: 600px;">
+      <div v-zoom="'.my-dialog-model'" style="height: 500px">
         <div style="margin-bottom: 20px;text-align: center;">
-          <el-radio-group v-model="state.editor" >
+          <el-radio-group v-model="state.editor">
             <el-radio-button label="infor">基础配置</el-radio-button>
             <el-radio-button label="field">字段配置</el-radio-button>
           </el-radio-group>
         </div>
-        <el-form ref="tableInfoFromRef"  :model="state.config" label-width="auto" label-position="right"
+        <el-row v-show="state.editor == 'field'">
+          <el-col style="text-align: right;">
+            <el-input-number v-model="state.appendCount" :min="1" style="width: 80px;margin-right:2px;margin-top:2px;"
+              controls-position="right" />
+            <el-dropdown :placement="'bottom-end'">
+              <el-button type="warning">新增字段 <el-icon><ele-ArrowDown /></el-icon></el-button>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item @click="appendField(1)">新增普通字段</el-dropdown-item>
+                  <el-dropdown-item @click="appendField(2)">新增主键</el-dropdown-item>
+                  <el-dropdown-item @click="appendField(3)">新增租户字段</el-dropdown-item>
+                  <el-dropdown-item @click="appendField(4)">新增通用字段</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </el-col>
+        </el-row>
+        <el-form ref="tableInfoFromRef" :model="state.config" label-width="auto" label-position="right"
           v-show="state.editor == 'infor'" :rules="editRules">
           <el-row>
             <el-col :xl="8" :lg="8" :md="12" :sm="12" :xs="24">
@@ -131,11 +139,11 @@
           </el-row>
         </el-form>
 
-        <el-form :size="state.tableSize" style="height: 100%" v-show="state.editor == 'field'">
-          <el-table :data="state.config.fields" size="small" height="100%">
+        <el-form :size="state.tableSize" v-show="state.editor == 'field'">
+          <el-table :data="state.config.fields" style="height:400px;">
             <el-table-column fixed width="50">
               <template #header>
-                <el-dropdown size="small" @command="setTableSize" placement="bottom-start">
+                <el-dropdown @command="setTableSize" placement="bottom-start">
                   <span class="el-dropdown-link"> <i class="iconfont icon-xianshimima" title="显示尺寸"></i> </span>
                   <template #dropdown>
                     <el-dropdown-menu>
@@ -147,7 +155,7 @@
                 </el-dropdown>
               </template>
               <template #default="scope">
-                <el-button size="small" type="warning" @click="removeField(scope.row,scope.$index)"> - </el-button>
+                <el-button type="warning" @click="removeField(scope.row, scope.$index)"> - </el-button>
               </template>
             </el-table-column>
             <el-table-column prop="columnName" label="列名" fixed width="150">
@@ -533,7 +541,7 @@ const state = reactive({
   title: '创建表',
   editor: 'infor',
   appendCount: 1,
-  tableSize: 'small',
+  tableSize: 'default',
   config: {} as CodeGenGetOutput & CodeGenUpdateInput & any,
   // 界面显示用数据
   dbKeys: [] as Array<DatabaseGetOutput>
@@ -646,7 +654,7 @@ const appendField = async (fieldType: number) => {
   }
 }
 
-const removeField = async (row: CodeGenFieldGetOutput,index: number) => {
+const removeField = async (row: CodeGenFieldGetOutput, index: number) => {
   if (!state.config?.fields) return
   var cols = state.config.fields
   state.config.fields.splice(index, 1);

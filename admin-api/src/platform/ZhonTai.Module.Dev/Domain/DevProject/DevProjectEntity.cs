@@ -26,11 +26,11 @@ namespace ZhonTai.Module.Dev.Domain.DevProject
         [Column(Position=2, StringLength=200)]
         public string Code { get; set; }
         /// <summary>
-        /// 是否禁用
+        /// 是否启用
         /// </summary>
         /// <remarks></remarks>
         [Column(Position=3)]
-        public bool IsDisable { get; set; }
+        public bool IsEnable { get; set; }
         /// <summary>
         /// 使用模板组
         /// </summary>

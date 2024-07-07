@@ -25,7 +25,7 @@
               <el-button type="warning">批量操作 <el-icon><ele-ArrowDown /></el-icon></el-button>
               <template #dropdown>
                 <el-dropdown-menu>
-                    <el-dropdown-item v-if="auth(perms.batSoftDelete)" :disabled="state.sels.length==0" @click="onBatchSoftDelete" icon="ele-DeleteFilled">批量删除</el-dropdown-item>
+                    <el-dropdown-item v-if="auth(perms.batSoftDelete)" :disabled="state.sels.length==0" @click="onBatchSoftDelete" icon="ele-DeleteFilled">批量软删除</el-dropdown-item>
                     <el-dropdown-item v-if="auth(perms.batDelete)"  :disabled="state.sels.length==0" @click="onBatchDelete" icon="ele-Delete">批量删除</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
@@ -51,8 +51,8 @@
                 <el-button icon="el-icon--right" text type="danger" >操作 <el-icon class="el-icon--right"><component :is="'ele-ArrowDown'" /></el-icon></el-button>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item v-if="auth(perms.delete)" @click.stop="onDelete(row)" icon="ele-Delete">删除</el-dropdown-item>
                     <el-dropdown-item v-if="auth(perms.softDelete)" @click.stop="onSoftDelete(row)" icon="ele-DeleteFilled">软删除</el-dropdown-item>
+                    <el-dropdown-item v-if="auth(perms.delete)" @click.stop="onDelete(row)" icon="ele-Delete">删除</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>            
               </el-dropdown>

@@ -49,6 +49,7 @@
   }
   .el-dialog__body {
     padding: 20px;
+    min-height: 20rem;
   }
   &.el-dialog .el-dialog__footer {
     box-shadow: var(--el-box-shadow);

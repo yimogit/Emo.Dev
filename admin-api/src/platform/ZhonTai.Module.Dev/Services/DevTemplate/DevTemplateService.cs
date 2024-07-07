@@ -30,7 +30,7 @@ namespace ZhonTai.Module.Dev.Services.DevTemplate
     /// 模板服务
     /// </summary>
     [DynamicApi(Area = DevConsts.AreaName)]
-    public class DevTemplateService : BaseService, IDevTemplateService, IDynamicApi
+    public partial class DevTemplateService : BaseService, IDevTemplateService, IDynamicApi
     {
         private IDevTemplateRepository _devTemplateRepository => LazyGetRequiredService<IDevTemplateRepository>();
 

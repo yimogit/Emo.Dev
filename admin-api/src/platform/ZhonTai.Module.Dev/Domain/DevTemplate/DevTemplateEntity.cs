@@ -33,11 +33,11 @@ namespace ZhonTai.Module.Dev.Domain.DevTemplate
         [Column(Position=3, StringLength=500)]
         public string? OutTo { get; set; }
         /// <summary>
-        /// 是否禁用
+        /// 是否启用
         /// </summary>
         /// <remarks></remarks>
         [Column(Position=4)]
-        public bool IsDisable { get; set; }
+        public bool IsEnable { get; set; }
         /// <summary>
         /// 模板内容
         /// </summary>

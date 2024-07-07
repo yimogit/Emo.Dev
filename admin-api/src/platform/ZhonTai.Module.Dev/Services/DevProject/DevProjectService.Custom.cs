@@ -111,11 +111,11 @@ namespace ZhonTai.Module.Dev.Services.DevProject
                         })
                     };
                     //模型是否禁用
-                    if (model.IsDisable) continue;
+                    if (!model.IsEnable) continue;
                     foreach (var tpl in templates)
                     {
                         //模板是否禁用
-                        if (tpl.IsDisable) continue;
+                        if (!tpl.IsEnable) continue;
                         if (string.IsNullOrEmpty(tpl.OutTo))
                         {
                             errors.Add($"生成【{tpl.Name}】输出路径为空");

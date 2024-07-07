@@ -184,7 +184,7 @@
             @:  <template #dropdown>
             @:    <el-dropdown-menu>
                 if(gen.GenBatchSoftDelete){
-                  @:  <el-dropdown-item v-if="auth(perms.batSoftDelete)" :disabled="state.sels.length==0" @(at)click="onBatchSoftDelete" icon="ele-DeleteFilled">批量删除</el-dropdown-item>
+                  @:  <el-dropdown-item v-if="auth(perms.batSoftDelete)" :disabled="state.sels.length==0" @(at)click="onBatchSoftDelete" icon="ele-DeleteFilled">批量软删除</el-dropdown-item>
                   }
                   if(gen.GenBatchDelete){
                   @:  <el-dropdown-item v-if="auth(perms.batDelete)"  :disabled="state.sels.length==0" @(at)click="onBatchDelete" icon="ele-Delete">批量删除</el-dropdown-item>
@@ -241,8 +241,8 @@
               @:  <el-button icon="el-icon--right" text type="danger" >操作 <el-icon class="el-icon--right"><component :is="'ele-ArrowDown'" /></el-icon></el-button>
               @:  <template #dropdown>
               @:    <el-dropdown-menu>
-              @:      <el-dropdown-item v-if="auth(perms.delete)" @(at)click.stop="onDelete(row)" icon="ele-Delete">删除</el-dropdown-item>
               @:      <el-dropdown-item v-if="auth(perms.softDelete)" @(at)click.stop="onSoftDelete(row)" icon="ele-DeleteFilled">软删除</el-dropdown-item>
+              @:      <el-dropdown-item v-if="auth(perms.delete)" @(at)click.stop="onDelete(row)" icon="ele-Delete">删除</el-dropdown-item>
               @:    </el-dropdown-menu>
               @:  </template>            
               @:</el-dropdown>
@@ -252,7 +252,7 @@
               @:</span>
               }
               @if(gen.GenSoftDelete&&!gen.GenDelete){
-              @:<el-button text type="warning" v-if="auth(perms.softDelete)" @(at)click.stop="onSoftDelete(row)" icon="ele-DeleteFilled">删除</el-button>
+              @:<el-button text type="warning" v-if="auth(perms.softDelete)" @(at)click.stop="onSoftDelete(row)" icon="ele-DeleteFilled">软删除</el-button>
               }
               @if(gen.GenDelete&&!gen.GenSoftDelete){
               @:<el-button text type="danger" v-if="auth(perms.delete)" @(at)click.stop="onDelete(row)" icon="ele-Delete">删除</el-button>

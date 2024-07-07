@@ -434,12 +434,6 @@
             </summary>
             <remarks></remarks>
         </member>
-        <member name="P:ZhonTai.Module.Dev.Domain.DevProjectModel.DevProjectModelEntity.IsDisable">
-            <summary>
-            是否禁用
-            </summary>
-            <remarks></remarks>
-        </member>
         <member name="P:ZhonTai.Module.Dev.Domain.DevProjectModel.DevProjectModelEntity.ProjectId">
             <summary>
             所属项目
@@ -455,6 +449,12 @@
         <member name="P:ZhonTai.Module.Dev.Domain.DevProjectModel.DevProjectModelEntity.Code">
             <summary>
             模型编码
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Domain.DevProjectModel.DevProjectModelEntity.IsEnable">
+            <summary>
+            是否启用
             </summary>
             <remarks></remarks>
         </member>
@@ -482,9 +482,9 @@
             </summary>
             <remarks></remarks>
         </member>
-        <member name="P:ZhonTai.Module.Dev.Domain.DevProject.DevProjectEntity.IsDisable">
+        <member name="P:ZhonTai.Module.Dev.Domain.DevProject.DevProjectEntity.IsEnable">
             <summary>
-            是否禁用
+            是否启用
             </summary>
             <remarks></remarks>
         </member>
@@ -524,9 +524,9 @@
             </summary>
             <remarks></remarks>
         </member>
-        <member name="P:ZhonTai.Module.Dev.Domain.DevTemplate.DevTemplateEntity.IsDisable">
+        <member name="P:ZhonTai.Module.Dev.Domain.DevTemplate.DevTemplateEntity.IsEnable">
             <summary>
-            是否禁用
+            是否启用
             </summary>
             <remarks></remarks>
         </member>
@@ -1646,9 +1646,6 @@
         <member name="T:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelGetListOutput">
             <summary>项目模型列表查询结果输出</summary>
         </member>
-        <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelGetListOutput.IsDisable">
-            <summary>是否禁用</summary>
-        </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelGetListOutput.ProjectId">
             <summary>所属项目</summary>
         </member>
@@ -1661,6 +1658,9 @@
         <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelGetListOutput.Code">
             <summary>模型编码</summary>
         </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelGetListOutput.IsEnable">
+            <summary>是否启用</summary>
+        </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelGetListOutput.Remark">
             <summary>备注</summary>
         </member>
@@ -1669,9 +1669,6 @@
         </member>
         <member name="T:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelGetOutput">
             <summary>项目模型查询结果输出</summary>
-        </member>
-        <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelGetOutput.IsDisable">
-            <summary>是否禁用</summary>
         </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelGetOutput.ProjectId">
             <summary>所属项目</summary>
@@ -1685,14 +1682,14 @@
         <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelGetOutput.Code">
             <summary>模型编码</summary>
         </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelGetOutput.IsEnable">
+            <summary>是否启用</summary>
+        </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelGetOutput.Remark">
             <summary>备注</summary>
         </member>
         <member name="T:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelGetPageOutput">
             <summary>项目模型分页查询结果输出</summary>
-        </member>
-        <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelGetPageOutput.IsDisable">
-            <summary>是否禁用</summary>
         </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelGetPageOutput.ProjectId">
             <summary>所属项目</summary>
@@ -1705,6 +1702,9 @@
         </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelGetPageOutput.Code">
             <summary>模型编码</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelGetPageOutput.IsEnable">
+            <summary>是否启用</summary>
         </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelGetPageOutput.Remark">
             <summary>备注</summary>
@@ -1724,9 +1724,6 @@
         <member name="T:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelAddInput">
             <summary>项目模型新增输入</summary>
         </member>
-        <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelAddInput.IsDisable">
-            <summary>是否禁用</summary>
-        </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelAddInput.ProjectId">
             <summary>所属项目</summary>
         </member>
@@ -1736,14 +1733,14 @@
         <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelAddInput.Code">
             <summary>模型编码</summary>
         </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelAddInput.IsEnable">
+            <summary>是否启用</summary>
+        </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelAddInput.Remark">
             <summary>备注</summary>
         </member>
         <member name="T:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelUpdateInput">
             <summary>项目模型更新数据输入</summary>
-        </member>
-        <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelUpdateInput.IsDisable">
-            <summary>是否禁用</summary>
         </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelUpdateInput.ProjectId">
             <summary>所属项目</summary>
@@ -1753,6 +1750,9 @@
         </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelUpdateInput.Code">
             <summary>模型编码</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelUpdateInput.IsEnable">
+            <summary>是否启用</summary>
         </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevProjectModel.Dto.DevProjectModelUpdateInput.Remark">
             <summary>备注</summary>
@@ -1903,8 +1903,8 @@
         <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectGetListOutput.Code">
             <summary>项目编码</summary>
         </member>
-        <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectGetListOutput.IsDisable">
-            <summary>是否禁用</summary>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectGetListOutput.IsEnable">
+            <summary>是否启用</summary>
         </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectGetListOutput.GroupId">
             <summary>使用模板组</summary>
@@ -1927,8 +1927,8 @@
         <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectGetOutput.Code">
             <summary>项目编码</summary>
         </member>
-        <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectGetOutput.IsDisable">
-            <summary>是否禁用</summary>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectGetOutput.IsEnable">
+            <summary>是否启用</summary>
         </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectGetOutput.GroupId">
             <summary>使用模板组</summary>
@@ -1948,8 +1948,8 @@
         <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectGetPageOutput.Code">
             <summary>项目编码</summary>
         </member>
-        <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectGetPageOutput.IsDisable">
-            <summary>是否禁用</summary>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectGetPageOutput.IsEnable">
+            <summary>是否启用</summary>
         </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectGetPageOutput.GroupId">
             <summary>使用模板组</summary>
@@ -1978,8 +1978,8 @@
         <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectAddInput.Code">
             <summary>项目编码</summary>
         </member>
-        <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectAddInput.IsDisable">
-            <summary>是否禁用</summary>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectAddInput.IsEnable">
+            <summary>是否启用</summary>
         </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectAddInput.GroupId">
             <summary>使用模板组</summary>
@@ -1996,8 +1996,8 @@
         <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectUpdateInput.Code">
             <summary>项目编码</summary>
         </member>
-        <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectUpdateInput.IsDisable">
-            <summary>是否禁用</summary>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectUpdateInput.IsEnable">
+            <summary>是否启用</summary>
         </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevProject.Dto.DevProjectUpdateInput.GroupId">
             <summary>使用模板组</summary>
@@ -2138,8 +2138,8 @@
         <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateGetListOutput.OutTo">
             <summary>生成路径</summary>
         </member>
-        <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateGetListOutput.IsDisable">
-            <summary>是否禁用</summary>
+        <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateGetListOutput.IsEnable">
+            <summary>是否启用</summary>
         </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateGetListOutput.Content">
             <summary>模板内容</summary>
@@ -2162,8 +2162,8 @@
         <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateGetOutput.OutTo">
             <summary>生成路径</summary>
         </member>
-        <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateGetOutput.IsDisable">
-            <summary>是否禁用</summary>
+        <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateGetOutput.IsEnable">
+            <summary>是否启用</summary>
         </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateGetOutput.Content">
             <summary>模板内容</summary>
@@ -2183,8 +2183,8 @@
         <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateGetPageOutput.OutTo">
             <summary>生成路径</summary>
         </member>
-        <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateGetPageOutput.IsDisable">
-            <summary>是否禁用</summary>
+        <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateGetPageOutput.IsEnable">
+            <summary>是否启用</summary>
         </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateGetPageOutput.Content">
             <summary>模板内容</summary>
@@ -2210,8 +2210,8 @@
         <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateAddInput.OutTo">
             <summary>生成路径</summary>
         </member>
-        <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateAddInput.IsDisable">
-            <summary>是否禁用</summary>
+        <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateAddInput.IsEnable">
+            <summary>是否启用</summary>
         </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateAddInput.Content">
             <summary>模板内容</summary>
@@ -2228,8 +2228,8 @@
         <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateUpdateInput.OutTo">
             <summary>生成路径</summary>
         </member>
-        <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateUpdateInput.IsDisable">
-            <summary>是否禁用</summary>
+        <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateUpdateInput.IsEnable">
+            <summary>是否启用</summary>
         </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateUpdateInput.Content">
             <summary>模板内容</summary>

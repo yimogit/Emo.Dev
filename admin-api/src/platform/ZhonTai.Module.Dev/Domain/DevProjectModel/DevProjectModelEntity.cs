@@ -15,12 +15,6 @@ namespace ZhonTai.Module.Dev.Domain.DevProjectModel
     public partial class DevProjectModelEntity: EntityBase
     {
         /// <summary>
-        /// 是否禁用
-        /// </summary>
-        /// <remarks></remarks>
-        
-        public bool IsDisable { get; set; }
-        /// <summary>
         /// 所属项目
         /// </summary>
         /// <remarks></remarks>
@@ -39,10 +33,16 @@ namespace ZhonTai.Module.Dev.Domain.DevProjectModel
         [Column(Position=3, StringLength=200)]
         public string Code { get; set; }
         /// <summary>
-        /// 备注
+        /// 是否启用
         /// </summary>
         /// <remarks></remarks>
         [Column(Position=4)]
+        public bool IsEnable { get; set; }
+        /// <summary>
+        /// 备注
+        /// </summary>
+        /// <remarks></remarks>
+        [Column(Position=5)]
         public string? Remark { get; set; }
     }
 

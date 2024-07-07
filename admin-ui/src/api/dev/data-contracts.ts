@@ -317,8 +317,8 @@ export interface DevProjectAddInput {
    * @minLength 1
    */
   code: string
-  /** 是否禁用 */
-  isDisable: boolean
+  /** 是否启用 */
+  isEnable: boolean
   /**
    * 使用模板组
    * @format int64
@@ -350,8 +350,8 @@ export interface DevProjectGetListOutput {
   name?: string | null
   /** 项目编码 */
   code?: string | null
-  /** 是否禁用 */
-  isDisable?: boolean
+  /** 是否启用 */
+  isEnable?: boolean
   /**
    * 使用模板组
    * @format int64
@@ -371,8 +371,8 @@ export interface DevProjectGetOutput {
   name?: string | null
   /** 项目编码 */
   code?: string | null
-  /** 是否禁用 */
-  isDisable?: boolean
+  /** 是否启用 */
+  isEnable?: boolean
   /**
    * 使用模板组
    * @format int64
@@ -406,8 +406,8 @@ export interface DevProjectGetPageOutput {
   name?: string | null
   /** 项目编码 */
   code?: string | null
-  /** 是否禁用 */
-  isDisable?: boolean
+  /** 是否启用 */
+  isEnable?: boolean
   /**
    * 使用模板组
    * @format int64
@@ -436,6 +436,8 @@ export interface DevProjectModelAddInput {
    * @minLength 1
    */
   code: string
+  /** 是否启用 */
+  isEnable: boolean
   /** 备注 */
   remark?: string | null
 }
@@ -728,6 +730,8 @@ export interface DevProjectModelGetListOutput {
   name?: string | null
   /** 模型编码 */
   code?: string | null
+  /** 是否启用 */
+  isEnable?: boolean
   /** 备注 */
   remark?: string | null
 }
@@ -747,6 +751,8 @@ export interface DevProjectModelGetOutput {
   name?: string | null
   /** 模型编码 */
   code?: string | null
+  /** 是否启用 */
+  isEnable?: boolean
   /** 备注 */
   remark?: string | null
 }
@@ -785,6 +791,8 @@ export interface DevProjectModelGetPageOutput {
   name?: string | null
   /** 模型编码 */
   code?: string | null
+  /** 是否启用 */
+  isEnable?: boolean
   /** 备注 */
   remark?: string | null
 }
@@ -808,6 +816,8 @@ export interface DevProjectModelUpdateInput {
    * @minLength 1
    */
   code: string
+  /** 是否启用 */
+  isEnable: boolean
   /** 备注 */
   remark?: string | null
 }
@@ -826,8 +836,8 @@ export interface DevProjectUpdateInput {
    * @minLength 1
    */
   code: string
-  /** 是否禁用 */
-  isDisable: boolean
+  /** 是否启用 */
+  isEnable: boolean
   /**
    * 使用模板组
    * @format int64
@@ -851,8 +861,8 @@ export interface DevTemplateAddInput {
   groupId: number
   /** 生成路径 */
   outTo?: string | null
-  /** 是否禁用 */
-  isDisable: boolean
+  /** 是否启用 */
+  isEnable: boolean
   /**
    * 模板内容
    * @minLength 1
@@ -892,8 +902,8 @@ export interface DevTemplateGetListOutput {
   groupId_Text?: string | null
   /** 生成路径 */
   outTo?: string | null
-  /** 是否禁用 */
-  isDisable?: boolean
+  /** 是否启用 */
+  isEnable?: boolean
   /** 模板内容 */
   content?: string | null
 }
@@ -913,8 +923,8 @@ export interface DevTemplateGetOutput {
   groupId_Text?: string | null
   /** 生成路径 */
   outTo?: string | null
-  /** 是否禁用 */
-  isDisable?: boolean
+  /** 是否启用 */
+  isEnable?: boolean
   /** 模板内容 */
   content?: string | null
 }
@@ -951,8 +961,8 @@ export interface DevTemplateGetPageOutput {
   groupId_Text?: string | null
   /** 生成路径 */
   outTo?: string | null
-  /** 是否禁用 */
-  isDisable?: boolean
+  /** 是否启用 */
+  isEnable?: boolean
   /** 模板内容 */
   content?: string | null
 }
@@ -973,8 +983,8 @@ export interface DevTemplateUpdateInput {
   groupId: number
   /** 生成路径 */
   outTo?: string | null
-  /** 是否禁用 */
-  isDisable: boolean
+  /** 是否启用 */
+  isEnable: boolean
   /**
    * 模板内容
    * @minLength 1

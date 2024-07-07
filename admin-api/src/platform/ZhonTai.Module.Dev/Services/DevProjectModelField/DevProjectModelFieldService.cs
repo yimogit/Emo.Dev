@@ -30,7 +30,7 @@ namespace ZhonTai.Module.Dev.Services.DevProjectModelField
     /// 项目模型字段服务
     /// </summary>
     [DynamicApi(Area = DevConsts.AreaName)]
-    public class DevProjectModelFieldService : BaseService, IDevProjectModelFieldService, IDynamicApi
+    public partial class DevProjectModelFieldService : BaseService, IDevProjectModelFieldService, IDynamicApi
     {
         private IDevProjectModelFieldRepository _devProjectModelFieldRepository => LazyGetRequiredService<IDevProjectModelFieldRepository>();
 

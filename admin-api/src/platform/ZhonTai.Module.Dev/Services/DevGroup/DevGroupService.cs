@@ -30,7 +30,7 @@ namespace ZhonTai.Module.Dev.Services.DevGroup
     /// 模板组服务
     /// </summary>
     [DynamicApi(Area = DevConsts.AreaName)]
-    public class DevGroupService : BaseService, IDevGroupService, IDynamicApi
+    public partial class DevGroupService : BaseService, IDevGroupService, IDynamicApi
     {
         private IDevGroupRepository _devGroupRepository => LazyGetRequiredService<IDevGroupRepository>();
 
