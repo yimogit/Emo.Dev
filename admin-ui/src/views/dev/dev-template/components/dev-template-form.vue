@@ -4,42 +4,81 @@
       :close-on-press-escape="false" class="my-dialog-model" :overflow="true">
       <el-form ref="formRef" :model="form" label-width="auto" @submit="onSure" v-zoom="'.my-dialog-model'">
         <el-row :gutter="20">
-        <el-col :span="12" :xs="24">
-           <el-form-item label="模板名称" prop="name" v-show="editItemIsShow(true, true)">
-             <el-input  v-model="state.form.name" placeholder="" >
-             </el-input>
-           </el-form-item>
-        </el-col>
-        <el-col :span="12" :xs="24">
-           <el-form-item label="模板分组" prop="groupId" v-show="editItemIsShow(true, true)">
-             <el-select  v-model="state.form.groupId" placeholder="" >
-               <el-option v-for="item in state.selectDevGroupListData" :key="item.id" :value="item.id" :label="item.name" />
-             </el-select>
-           </el-form-item>
-        </el-col>
-        <el-col :span="12" :xs="24">
-           <el-form-item label="生成路径" prop="outTo" v-show="editItemIsShow(true, true)">
-             <el-input  v-model="state.form.outTo" placeholder="" >
-             </el-input>
-           </el-form-item>
-        </el-col>
-        <el-col :span="12" :xs="24">
-           <el-form-item label="是否启用" prop="isEnable" v-show="editItemIsShow(true, true)">
-             <el-checkbox  v-model="state.form.isEnable" placeholder="" >
-             </el-checkbox>
-           </el-form-item>
-        </el-col>
-        <el-col :span="24" :xs="24">
-           <el-form-item label="模板内容" prop="content" v-show="editItemIsShow(true, true)">
-             <el-input  type="textarea"  v-model="state.form.content" placeholder="" >
-             </el-input>
-           </el-form-item>
-        </el-col>
+          <el-col :span="12" :xs="24">
+            <el-form-item label="模板名称" prop="name" v-show="editItemIsShow(true, true)">
+              <el-input v-model="state.form.name" placeholder="">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12" :xs="24">
+            <el-form-item label="模板分组" prop="groupId" v-show="editItemIsShow(true, true)">
+              <el-select v-model="state.form.groupId" placeholder="">
+                <el-option v-for="item in state.selectDevGroupListData" :key="item.id" :value="item.id"
+                  :label="item.name" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12" :xs="24">
+            <el-form-item label="生成路径" prop="outTo" v-show="editItemIsShow(true, true)">
+              <template #label>
+                <div>生成路径</div>
+                <div>
+                  <el-tooltip effect="dark">
+                    <template #content>
+                      使用 razor 视图引擎，模型定义应添加下面的代码，默认模板如下<br />
+                      @{
+                      var gen = Model as ZhonTai.Module.Dev.DevProjectRazorRenderModel;
+                      }<br />
+                      可以使用的数据 项目信息:gen.Project 模型信息：gen.Model 字段信息：gen.Fields<br />
+                      代码区块：@{ //C#代码 }<br />
+                      行内使用<br />
+                      模型名称：@(gen.Model.Name)<br />
+                      模型编码：@(gen.Model.Code)<br />
+                    </template>
+                    <SvgIcon name="ele-InfoFilled" class="ml5" />
+                  </el-tooltip>
+                </div>
+              </template>
+              <el-input v-model="state.form.outTo" placeholder="">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12" :xs="24">
+            <el-form-item label="是否启用" prop="isEnable" v-show="editItemIsShow(true, true)">
+              <el-checkbox v-model="state.form.isEnable" placeholder="">
+              </el-checkbox>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24" :xs="24">
+            <el-form-item label="模板内容" prop="content" v-show="editItemIsShow(true, true)">
+              <template #label>
+                <div>模板内容</div>
+                <div>
+                  <el-tooltip effect="dark">
+                    <template #content>
+                      使用 razor 视图引擎，模型定义应添加下面的代码，默认模板如下<br />
+                      @{
+                      var gen = Model as ZhonTai.Module.Dev.DevProjectRazorRenderModel;
+                      }<br />
+                      可以使用的数据 gen.Project gen.Model gen.Fields<br />
+                      代码区块：@{ //C#代码 }<br />
+                      行内使用<br />
+                      模型名称：@(gen.Model.Name)<br />
+                      模型编码：@(gen.Model.Code)<br />
+                    </template>
+                    <SvgIcon name="ele-InfoFilled" class="ml5" />
+                  </el-tooltip>
+                </div>
+              </template>
+              <el-input type="textarea" v-model="state.form.content" placeholder="" rows="30">
+              </el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="onCancel" >取 消</el-button>
+          <el-button @click="onCancel">取 消</el-button>
           <el-button type="primary" @click="onSure" :loading="state.sureLoading">确 定</el-button>
         </span>
       </template>
@@ -48,8 +87,9 @@
 </template>
 
 <script lang="ts" setup name="dev/dev-template/form">
-import { reactive, toRefs, getCurrentInstance, ref, defineAsyncComponent} from 'vue'
-import { DevTemplateAddInput, DevTemplateUpdateInput,
+import { reactive, toRefs, getCurrentInstance, ref, defineAsyncComponent } from 'vue'
+import {
+  DevTemplateAddInput, DevTemplateUpdateInput,
   DevTemplateGetListInput, DevTemplateGetListOutput,
   DevGroupGetListOutput,
   DevGroupGetOutput,
@@ -81,7 +121,7 @@ const { form } = toRefs(state)
 
 // 打开对话框
 const open = async (row: any = {}) => {
-    
+
   getDevGroupList();
 
 
@@ -148,11 +188,11 @@ const onSure = () => {
 }
 
 const editItemIsShow = (add: Boolean, edit: Boolean): Boolean => {
-    if(add && edit)return true;
-    let isEdit=state.form.id != undefined && state.form.id > 0
-    if(add && !isEdit)return true;
-    if(edit && isEdit)return true;
-    return false;
+  if (add && edit) return true;
+  let isEdit = state.form.id != undefined && state.form.id > 0
+  if (add && !isEdit) return true;
+  if (edit && isEdit) return true;
+  return false;
 }
 
 

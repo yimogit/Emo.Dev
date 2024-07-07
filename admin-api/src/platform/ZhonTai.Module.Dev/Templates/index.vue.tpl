@@ -201,7 +201,7 @@
     <el-card class="my-fill mt8" shadow="never">
       <el-table v-loading="state.loading" :data="state.@(entityNameCc)ListData" row-key="id"  ref="listTableRef" @(at)row-click="listTableToggleSelection"  @(at)selection-change="selsChange">
         
-        @if(gen.GenDelete||gen.GenSoftDelete){
+        @if(gen.GenBatchDelete||gen.GenBatchSoftDelete){
           @:<el-table-column type="selection" width="50" />
           }
               @foreach (var col in gen.Fields.Where(w => w.WhetherTable && !w.IsIgnoreColumn()))

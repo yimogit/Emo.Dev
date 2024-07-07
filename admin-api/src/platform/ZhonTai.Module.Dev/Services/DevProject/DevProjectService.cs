@@ -97,7 +97,6 @@ namespace ZhonTai.Module.Dev.Services.DevProject
                     s.GroupId_Text = groupIdRowsIdsData.FirstOrDefault(s2 => s2.Id == s.GroupId)?.Name;
                 });
             }
-
             var data = new PageOutput<DevProjectGetPageOutput> { List = list, Total = total };
         
             return data;

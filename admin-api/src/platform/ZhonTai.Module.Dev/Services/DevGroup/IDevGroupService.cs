@@ -105,6 +105,10 @@ namespace ZhonTai.Module.Dev.Services.DevGroup.Dto
 
         /// <summary>模板组名称</summary>       
         public string? Name { get; set; }
+        /// <summary>
+        /// 模板Id
+        /// </summary>
+        public long? Id { get; set; }
     }
     
     /// <summary>模板组新增输入</summary>

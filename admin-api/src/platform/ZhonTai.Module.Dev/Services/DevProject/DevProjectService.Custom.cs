@@ -29,6 +29,7 @@ using ZhonTai.Module.Dev.Domain.CodeGen;
 using ZhonTai.Module.Dev.Domain.DevProjectModel;
 using ZhonTai.Module.Dev.Domain.DevProjectModelField;
 using ZhonTai.Module.Dev.Domain.DevTemplate;
+using AngleSharp.Common;
 
 
 namespace ZhonTai.Module.Dev.Services.DevProject
@@ -98,18 +99,10 @@ namespace ZhonTai.Module.Dev.Services.DevProject
                 {
                     var modelFields = fields.Where(s => s.ModelId == model.Id);
                     //模型渲染
-                    var gen = new CodeGenEntity()
-                    {
-                        BusName = model.Name,
-                        ApiAreaName = project.Code,
-                        MenuPid = project.Name,
-                        Fields = modelFields.Select(s => new CodeGenFieldEntity()
-                        {
-                            Id = model.Id,
-                            Title = s.Name,
-                            ColumnName = s.Code,
-                        })
-                    };
+                    var gen = new Dictionary<string, object>();
+                    gen.Add("project", project);
+                    gen.Add("model", model);
+                    gen.Add("modeeFields", modelFields);
                     //模型是否禁用
                     if (!model.IsEnable) continue;
                     foreach (var tpl in templates)
@@ -134,7 +127,7 @@ namespace ZhonTai.Module.Dev.Services.DevProject
                                 Trace.WriteLine($"文件存在：{outPath}");
                                 continue;
                             }
-                            _RazorCompile(RazorEngine.Engine.Razor, gen, Guid.NewGuid().ToString("n") + ".tpl", codeText, outPath);
+                            _RazorCompile(RazorEngine.Engine.Razor, gen, $"{project.Code}_{model.Code}_{tpl.Name}.tpl", codeText, outPath);
                         }
                         catch (Exception ex)
                         {
@@ -154,7 +147,7 @@ namespace ZhonTai.Module.Dev.Services.DevProject
                 RazorEngine.Engine.Razor.Dispose();
             }
         }
-        void _RazorCompile(IRazorEngineService razor, CodeGenEntity entity, string key, string code, string outfile)
+        void _RazorCompile(IRazorEngineService razor, Dictionary<string, object> genDic, string key, string code, string outfile)
         {
             if (razor == null) return;
 
@@ -165,7 +158,7 @@ namespace ZhonTai.Module.Dev.Services.DevProject
                 {
                     try
                     {
-                        razor.RunCompile(new LoadedTemplateSource(code), key, fw, entity.GetType(), entity);
+                        razor.RunCompile(new LoadedTemplateSource(code), key, fw, genDic.GetType(), genDic);
                     }
                     catch (Exception ex)
                     {

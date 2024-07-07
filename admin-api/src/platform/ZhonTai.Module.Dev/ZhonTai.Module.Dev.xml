@@ -362,6 +362,24 @@
             </summary>
             <remarks></remarks>
         </member>
+        <member name="T:ZhonTai.Module.Dev.Domain.DevProjectGen.DevProjectGenEntity">
+            <summary>
+            项目生成 实体类
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Domain.DevProjectGen.DevProjectGenEntity.ProjectId">
+            <summary>
+            所属项目
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Domain.DevProjectGen.DevProjectGenEntity.GroupIds">
+            <summary>
+            模板组
+            </summary>
+            <remarks></remarks>
+        </member>
         <member name="T:ZhonTai.Module.Dev.Domain.DevProjectModelField.DevProjectModelFieldEntity">
             <summary>
             项目模型字段 实体类
@@ -531,36 +549,6 @@
             <remarks></remarks>
         </member>
         <member name="P:ZhonTai.Module.Dev.Domain.DevTemplate.DevTemplateEntity.Content">
-            <summary>
-            模板内容
-            </summary>
-            <remarks></remarks>
-        </member>
-        <member name="T:ZhonTai.Module.Dev.Domain.Template.TemplateEntity">
-            <summary>
-            模板 实体类
-            </summary>
-            <remarks></remarks>
-        </member>
-        <member name="P:ZhonTai.Module.Dev.Domain.Template.TemplateEntity.Name">
-            <summary>
-            模板名称
-            </summary>
-            <remarks></remarks>
-        </member>
-        <member name="P:ZhonTai.Module.Dev.Domain.Template.TemplateEntity.GroupId">
-            <summary>
-            模板分组
-            </summary>
-            <remarks></remarks>
-        </member>
-        <member name="P:ZhonTai.Module.Dev.Domain.Template.TemplateEntity.Path">
-            <summary>
-            生成路径
-            </summary>
-            <remarks></remarks>
-        </member>
-        <member name="P:ZhonTai.Module.Dev.Domain.Template.TemplateEntity.Content">
             <summary>
             模板内容
             </summary>
@@ -1191,6 +1179,11 @@
         <member name="P:ZhonTai.Module.Dev.Services.DevGroup.Dto.DevGroupGetPageInput.Name">
             <summary>模板组名称</summary>       
         </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevGroup.Dto.DevGroupGetPageInput.Id">
+            <summary>
+            模板Id
+            </summary>
+        </member>
         <member name="T:ZhonTai.Module.Dev.Services.DevGroup.Dto.DevGroupAddInput">
             <summary>模板组新增输入</summary>
         </member>
@@ -1208,6 +1201,322 @@
         </member>
         <member name="P:ZhonTai.Module.Dev.Services.DevGroup.Dto.DevGroupUpdateInput.Remark">
             <summary>备注</summary>
+        </member>
+        <member name="T:ZhonTai.Module.Dev.Services.DevProjectGen.DevProjectGenService">
+            <summary>
+            项目生成服务
+            </summary>
+            <summary>
+            项目生成服务
+            </summary>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.DevProjectGenService.GetAsync(System.Int64)">
+            <summary>
+            查询
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.DevProjectGenService.GetListAsync(ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetListInput)">
+            <summary>
+            列表查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.DevProjectGenService.GetPageAsync(ZhonTai.Admin.Core.Dto.PageInput{ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetPageInput})">
+            <summary>
+            分页查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.DevProjectGenService.AddAsync(ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenAddInput)">
+            <summary>
+            新增
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.DevProjectGenService.UpdateAsync(ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenUpdateInput)">
+            <summary>
+            更新
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.DevProjectGenService.DeleteAsync(System.Int64)">
+            <summary>
+            删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.DevProjectGenService.BatchDeleteAsync(System.Int64[])">
+            <summary>
+            批量删除
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.DevProjectGenService.BatchSoftDeleteAsync(System.Int64[])">
+            <summary>
+            批量软删除
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.DevProjectGenService.GetPreviewMenuAsync(ZhonTai.Module.Dev.Services.DevProjectGen.Input.DevProjectGenPreviewMenuInput)">
+            <summary>
+            生成预览菜单
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.DevProjectGenService.GenerateAsync(ZhonTai.Module.Dev.Services.DevProjectGen.Input.DevProjectGenGenerateInput)">
+            <summary>
+            生成
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.DevProjectGenService.DownAsync(ZhonTai.Module.Dev.Services.DevProjectGen.Input.DevProjectGenGenerateInput)">
+            <summary>
+            下载
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ZhonTai.Module.Dev.Services.DevProjectGen.IDevProjectGenService">
+            <summary>
+            项目生成服务
+            </summary>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.IDevProjectGenService.GetAsync(System.Int64)">
+            <summary>
+            查询
+            </summary>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.IDevProjectGenService.GetPageAsync(ZhonTai.Admin.Core.Dto.PageInput{ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetPageInput})">
+            <summary>
+            分页查询
+            </summary>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.IDevProjectGenService.GetListAsync(ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetListInput)">
+            <summary>
+            列表查询
+            </summary>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.IDevProjectGenService.AddAsync(ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenAddInput)">
+            <summary>
+            新增
+            </summary>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.IDevProjectGenService.UpdateAsync(ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenUpdateInput)">
+            <summary>
+            编辑
+            </summary>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.IDevProjectGenService.DeleteAsync(System.Int64)">
+            <summary>
+            删除
+            </summary>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.IDevProjectGenService.BatchDeleteAsync(System.Int64[])">
+            <summary>
+            批量删除
+            </summary>
+        </member>
+        <member name="M:ZhonTai.Module.Dev.Services.DevProjectGen.IDevProjectGenService.BatchSoftDeleteAsync(System.Int64[])">
+            <summary>
+            批量软删除
+            </summary>
+        </member>
+        <member name="T:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetListOutput">
+            <summary>项目生成列表查询结果输出</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetListOutput.ProjectId">
+            <summary>所属项目</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetListOutput.ProjectId_Text">
+            <summary>所属项目显示文本</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetListOutput.GroupIds">
+            <summary>模板组</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetListOutput.GroupIds_Texts">
+            <summary>模板组显示文本</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetListOutput.GroupIds_Values">
+            <summary>页面使用的模板组数组</summary>
+        </member>
+        <member name="T:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetListInput">
+            <summary>项目生成列表查询条件输入</summary>
+        </member>
+        <member name="T:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetOutput">
+            <summary>项目生成查询结果输出</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetOutput.ProjectId">
+            <summary>所属项目</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetOutput.ProjectId_Text">
+            <summary>所属项目显示文本</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetOutput.GroupIds">
+            <summary>模板组</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetOutput.GroupIds_Texts">
+            <summary>模板组显示文本</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetOutput.GroupIds_Values">
+            <summary>页面使用的模板组数组</summary>
+        </member>
+        <member name="T:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetPageOutput">
+            <summary>项目生成分页查询结果输出</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetPageOutput.ProjectId">
+            <summary>所属项目</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetPageOutput.ProjectId_Text">
+            <summary>所属项目显示文本</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetPageOutput.GroupIds">
+            <summary>模板组</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetPageOutput.GroupIds_Texts">
+            <summary>模板组显示文本</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetPageOutput.GroupIds_Values">
+            <summary>页面使用的模板组数组</summary>
+        </member>
+        <member name="T:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetPageInput">
+            <summary>项目生成分页查询条件输入</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenGetPageInput.ProjectId">
+            <summary>所属项目</summary>       
+        </member>
+        <member name="T:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenAddInput">
+            <summary>项目生成新增输入</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenAddInput.ProjectId">
+            <summary>所属项目</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenAddInput.GroupIds">
+            <summary>模板组</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenAddInput.GroupIds_Values">
+            <summary>页面提交的模板组数组</summary>
+        </member>
+        <member name="T:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenUpdateInput">
+            <summary>项目生成更新数据输入</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenUpdateInput.ProjectId">
+            <summary>所属项目</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenUpdateInput.GroupIds">
+            <summary>模板组</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Dto.DevProjectGenUpdateInput.GroupIds_Values">
+            <summary>页面提交的模板组数组</summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Input.DevProjectGenGenerateInput.ProjectId">
+            <summary>
+            项目Id
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Input.DevProjectGenGenerateInput.ModelIds">
+            <summary>
+            模型Ids 
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Input.DevProjectGenGenerateInput.GroupIds">
+            <summary>
+            分组Ids
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Input.DevProjectGenGenerateInput.TemplateIds">
+            <summary>
+            模板Ids
+            </summary>
+        </member>
+        <member name="T:ZhonTai.Module.Dev.Services.DevProjectGen.Input.DevProjectGenPreviewMenuInput">
+            <summary>
+            项目生成预览
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Input.DevProjectGenPreviewMenuInput.ProjectId">
+            <summary>
+            项目Id
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Input.DevProjectGenPreviewMenuInput.GroupIds">
+            <summary>
+            模板组
+            </summary>
+        </member>
+        <member name="T:ZhonTai.Module.Dev.Services.DevProjectGen.Input.DevProjectGenTemplateInput">
+            <summary>
+            项目生成模板请求
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Input.DevProjectGenTemplateInput.ProjectId">
+            <summary>
+            项目ID
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Input.DevProjectGenTemplateInput.GroupId">
+            <summary>
+            模板组
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Output.DevProjectGenGenerateOutput.TemplateId">
+            <summary>
+            模板id 
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Output.DevProjectGenGenerateOutput.Path">
+            <summary>
+            输出路径
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Output.DevProjectGenGenerateOutput.Content">
+            <summary>
+            生成内容
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Output.DevProjectGenPreviewMenuOutput.GroupId">
+            <summary>
+            分组ID
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Output.DevProjectGenPreviewMenuOutput.GroupName">
+            <summary>
+            分组名
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Output.DevProjectGenPreviewMenuOutput.TemplateList">
+            <summary>
+            模板列表
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Output.DevProjectGenPreviewTemplateOutput.GroupId">
+            <summary>
+            模板组Id
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Output.DevProjectGenPreviewTemplateOutput.TemplateId">
+            <summary>
+            模板Id
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Output.DevProjectGenPreviewTemplateOutput.TemplateName">
+            <summary>
+            模板名称
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Output.DevProjectGenPreviewTemplateOutput.TempaltePath">
+            <summary>
+            模板生成路径
+            </summary>
         </member>
         <member name="T:ZhonTai.Module.Dev.Services.DevProjectModelField.DevProjectModelFieldService">
             <summary>
@@ -2234,6 +2543,21 @@
         <member name="P:ZhonTai.Module.Dev.Services.DevTemplate.Dto.DevTemplateUpdateInput.Content">
             <summary>模板内容</summary>
         </member>
+        <member name="P:ZhonTai.Module.Dev.DevProjectRazorRenderModel.Project">
+            <summary>
+            项目信息
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.DevProjectRazorRenderModel.Model">
+            <summary>
+            模型信息
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.DevProjectRazorRenderModel.Fields">
+            <summary>
+            字段信息
+            </summary>
+        </member>
         <member name="M:CodeGenFieldEntityExtension.IsTextColumn(ZhonTai.Module.Dev.Domain.CodeGen.CodeGenFieldEntity)">
             <summary>
             是否文本列
@@ -2295,6 +2619,13 @@
         <member name="M:CodeGenFieldEntityExtension.FreeSqlNavigaetAttribute(ZhonTai.Module.Dev.Domain.CodeGen.CodeGenFieldEntity)">
             <summary>
             获取FreeSql导航Attribute
+            </summary>
+            <param name="col"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CodeGenFieldEntityExtension.PropCs(ZhonTai.Module.Dev.Services.DevProjectModelField.Dto.DevProjectModelFieldGetOutput)">
+            <summary>
+            获取列属性定义字符串 C#
             </summary>
             <param name="col"></param>
             <returns></returns>

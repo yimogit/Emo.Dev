@@ -9,6 +9,8 @@
  * ---------------------------------------------------------------
  */
 
+export type ActionResult = object
+
 export interface BaseDataGetOutput {
   databases?: DatabaseGetOutput[] | null
   authorName?: string | null
@@ -242,6 +244,11 @@ export interface DevGroupAddInput {
 export interface DevGroupGetListInput {
   /** 模板组名称 */
   name?: string | null
+  /**
+   * 模板Id
+   * @format int64
+   */
+  id?: number | null
 }
 
 /** 模板组列表查询结果输出 */
@@ -274,6 +281,11 @@ export interface DevGroupGetOutput {
 export interface DevGroupGetPageInput {
   /** 模板组名称 */
   name?: string | null
+  /**
+   * 模板Id
+   * @format int64
+   */
+  id?: number | null
 }
 
 /** 模板组分页查询结果输出 */
@@ -326,6 +338,193 @@ export interface DevProjectAddInput {
   groupId: number
   /** 备注 */
   remark?: string | null
+}
+
+/** 项目生成新增输入 */
+export interface DevProjectGenAddInput {
+  /**
+   * 所属项目
+   * @format int64
+   */
+  projectId: number
+  /**
+   * 模板组
+   * @minLength 1
+   */
+  groupIds: string
+  /** 页面提交的模板组数组 */
+  groupIds_Values?: string[] | null
+}
+
+export interface DevProjectGenGenerateInput {
+  /**
+   * 项目Id
+   * @format int64
+   */
+  projectId?: number
+  /** 模型Ids */
+  modelIds?: number[] | null
+  /** 分组Ids */
+  groupIds?: number[] | null
+  /** 模板Ids */
+  templateIds?: number[] | null
+}
+
+export interface DevProjectGenGenerateOutput {
+  /**
+   * 模板id
+   * @format int64
+   */
+  templateId?: number
+  /** 输出路径 */
+  path?: string | null
+  /** 生成内容 */
+  content?: string | null
+}
+
+/** 项目生成列表查询条件输入 */
+export interface DevProjectGenGetListInput {
+  /**
+   * 所属项目
+   * @format int64
+   */
+  projectId?: number | null
+}
+
+/** 项目生成列表查询结果输出 */
+export interface DevProjectGenGetListOutput {
+  /** @format int64 */
+  id?: number
+  /** @format date-time */
+  createdTime?: string
+  createdUserName?: string | null
+  modifiedUserName?: string | null
+  /** @format date-time */
+  modifiedTime?: string | null
+  /**
+   * 所属项目
+   * @format int64
+   */
+  projectId?: number
+  /** 所属项目显示文本 */
+  projectId_Text?: string | null
+  /** 模板组 */
+  groupIds?: string | null
+  /** 模板组显示文本 */
+  groupIds_Texts?: string[] | null
+  /** 页面使用的模板组数组 */
+  groupIds_Values?: string[] | null
+}
+
+/** 项目生成查询结果输出 */
+export interface DevProjectGenGetOutput {
+  /** @format int64 */
+  id?: number
+  /**
+   * 所属项目
+   * @format int64
+   */
+  projectId?: number
+  /** 所属项目显示文本 */
+  projectId_Text?: string | null
+  /** 模板组 */
+  groupIds?: string | null
+  /** 模板组显示文本 */
+  groupIds_Texts?: string[] | null
+  /** 页面使用的模板组数组 */
+  groupIds_Values?: string[] | null
+}
+
+/** 项目生成分页查询条件输入 */
+export interface DevProjectGenGetPageInput {
+  /**
+   * 所属项目
+   * @format int64
+   */
+  projectId?: number | null
+}
+
+/** 项目生成分页查询结果输出 */
+export interface DevProjectGenGetPageOutput {
+  /** @format int64 */
+  id?: number
+  /** @format date-time */
+  createdTime?: string
+  createdUserName?: string | null
+  modifiedUserName?: string | null
+  /** @format date-time */
+  modifiedTime?: string | null
+  /**
+   * 所属项目
+   * @format int64
+   */
+  projectId?: number
+  /** 所属项目显示文本 */
+  projectId_Text?: string | null
+  /** 模板组 */
+  groupIds?: string | null
+  /** 模板组显示文本 */
+  groupIds_Texts?: string[] | null
+  /** 页面使用的模板组数组 */
+  groupIds_Values?: string[] | null
+}
+
+/** 项目生成预览 */
+export interface DevProjectGenPreviewMenuInput {
+  /**
+   * 项目Id
+   * @format int64
+   */
+  projectId?: number
+  /** 模板组 */
+  groupIds?: number[] | null
+}
+
+export interface DevProjectGenPreviewMenuOutput {
+  /**
+   * 分组ID
+   * @format int64
+   */
+  groupId?: number
+  /** 分组名 */
+  groupName?: string | null
+  /** 模板列表 */
+  templateList?: DevProjectGenPreviewTemplateOutput[] | null
+}
+
+export interface DevProjectGenPreviewTemplateOutput {
+  /**
+   * 模板组Id
+   * @format int64
+   */
+  groupId?: number
+  /**
+   * 模板Id
+   * @format int64
+   */
+  templateId?: number
+  /** 模板名称 */
+  templateName?: string | null
+  /** 模板生成路径 */
+  tempaltePath?: string | null
+}
+
+/** 项目生成更新数据输入 */
+export interface DevProjectGenUpdateInput {
+  /** @format int64 */
+  id?: number
+  /**
+   * 所属项目
+   * @format int64
+   */
+  projectId: number
+  /**
+   * 模板组
+   * @minLength 1
+   */
+  groupIds: string
+  /** 页面提交的模板组数组 */
+  groupIds_Values?: string[] | null
 }
 
 /** 项目列表查询条件输入 */
@@ -1032,6 +1231,23 @@ export interface PageInputDevGroupGetPageInput {
 }
 
 /** 分页信息输入 */
+export interface PageInputDevProjectGenGetPageInput {
+  /**
+   * 当前页标
+   * @format int32
+   */
+  currentPage?: number
+  /**
+   * 每页大小
+   * @format int32
+   */
+  pageSize?: number
+  dynamicFilter?: DynamicFilterInfo
+  /** 项目生成分页查询条件输入 */
+  filter?: DevProjectGenGetPageInput
+}
+
+/** 分页信息输入 */
 export interface PageInputDevProjectGetPageInput {
   /**
    * 当前页标
@@ -1111,6 +1327,17 @@ export interface PageOutputDevGroupGetPageOutput {
 }
 
 /** 分页信息输出 */
+export interface PageOutputDevProjectGenGetPageOutput {
+  /**
+   * 数据总数
+   * @format int64
+   */
+  total?: number
+  /** 数据 */
+  list?: DevProjectGenGetPageOutput[] | null
+}
+
+/** 分页信息输出 */
 export interface PageOutputDevProjectGetPageOutput {
   /**
    * 数据总数
@@ -1152,6 +1379,17 @@ export interface PageOutputDevTemplateGetPageOutput {
   total?: number
   /** 数据 */
   list?: DevTemplateGetPageOutput[] | null
+}
+
+/** 结果输出 */
+export interface ResultOutputActionResult {
+  /** 是否成功标记 */
+  success?: boolean
+  /** 编码 */
+  code?: string | null
+  /** 消息 */
+  msg?: string | null
+  data?: ActionResult
 }
 
 /** 结果输出 */
@@ -1198,6 +1436,18 @@ export interface ResultOutputDevGroupGetOutput {
   msg?: string | null
   /** 模板组查询结果输出 */
   data?: DevGroupGetOutput
+}
+
+/** 结果输出 */
+export interface ResultOutputDevProjectGenGetOutput {
+  /** 是否成功标记 */
+  success?: boolean
+  /** 编码 */
+  code?: string | null
+  /** 消息 */
+  msg?: string | null
+  /** 项目生成查询结果输出 */
+  data?: DevProjectGenGetOutput
 }
 
 /** 结果输出 */
@@ -1273,6 +1523,30 @@ export interface ResultOutputIEnumerableDevGroupGetListOutput {
 }
 
 /** 结果输出 */
+export interface ResultOutputIEnumerableDevProjectGenGetListOutput {
+  /** 是否成功标记 */
+  success?: boolean
+  /** 编码 */
+  code?: string | null
+  /** 消息 */
+  msg?: string | null
+  /** 数据 */
+  data?: DevProjectGenGetListOutput[] | null
+}
+
+/** 结果输出 */
+export interface ResultOutputIEnumerableDevProjectGenPreviewMenuOutput {
+  /** 是否成功标记 */
+  success?: boolean
+  /** 编码 */
+  code?: string | null
+  /** 消息 */
+  msg?: string | null
+  /** 数据 */
+  data?: DevProjectGenPreviewMenuOutput[] | null
+}
+
+/** 结果输出 */
 export interface ResultOutputIEnumerableDevProjectGetListOutput {
   /** 是否成功标记 */
   success?: boolean
@@ -1336,6 +1610,18 @@ export interface ResultOutputInt64 {
 }
 
 /** 结果输出 */
+export interface ResultOutputListDevProjectGenGenerateOutput {
+  /** 是否成功标记 */
+  success?: boolean
+  /** 编码 */
+  code?: string | null
+  /** 消息 */
+  msg?: string | null
+  /** 数据 */
+  data?: DevProjectGenGenerateOutput[] | null
+}
+
+/** 结果输出 */
 export interface ResultOutputPageOutputDevGroupGetPageOutput {
   /** 是否成功标记 */
   success?: boolean
@@ -1345,6 +1631,18 @@ export interface ResultOutputPageOutputDevGroupGetPageOutput {
   msg?: string | null
   /** 分页信息输出 */
   data?: PageOutputDevGroupGetPageOutput
+}
+
+/** 结果输出 */
+export interface ResultOutputPageOutputDevProjectGenGetPageOutput {
+  /** 是否成功标记 */
+  success?: boolean
+  /** 编码 */
+  code?: string | null
+  /** 消息 */
+  msg?: string | null
+  /** 分页信息输出 */
+  data?: PageOutputDevProjectGenGetPageOutput
 }
 
 /** 结果输出 */

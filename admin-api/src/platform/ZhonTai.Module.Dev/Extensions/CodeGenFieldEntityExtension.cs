@@ -3,6 +3,7 @@ using RazorEngine.Compilation.ImpromptuInterface.Dynamic;
 using RazorEngine.Compilation.ImpromptuInterface.Optimization;
 using StackExchange.Profiling.Internal;
 using ZhonTai.Module.Dev.Domain.CodeGen;
+using ZhonTai.Module.Dev.Services.DevProjectModelField.Dto;
 
 public static class CodeGenFieldEntityExtension
 {
@@ -194,6 +195,20 @@ public static class CodeGenFieldEntityExtension
         if (string.IsNullOrWhiteSpace(col.IncludeEntity) || string.IsNullOrWhiteSpace(col.IncludeEntityKey)) return "";
         return string.Concat("[Navigate(nameof(", col.IncludeEntity.NamingPascalCase().PadEndIfNot("Entity"), ".", col.IncludeEntityKey.NamingPascalCase(), "))]");
 
+    }
+
+    /// <summary>
+    /// 获取列属性定义字符串 C#
+    /// </summary>
+    /// <param name="col"></param>
+    /// <returns></returns>
+    public static string PropCs(this DevProjectModelFieldGetOutput col)
+    {
+        if (col == null) return string.Empty;
+
+        var propName = col.Code.NamingPascalCase();
+        var propType = col.DataType;
+        return string.Join(" ", "public", propType, propName, "{ get; set; }");
     }
 
     /// <summary>

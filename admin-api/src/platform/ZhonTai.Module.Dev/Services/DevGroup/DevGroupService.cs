@@ -49,7 +49,7 @@ namespace ZhonTai.Module.Dev.Services.DevGroup
             var output = await _devGroupRepository.GetAsync<DevGroupGetOutput>(id);
             return output;
         }
-        
+
         /// <summary>
         /// 列表查询
         /// </summary>
@@ -59,7 +59,8 @@ namespace ZhonTai.Module.Dev.Services.DevGroup
         public async Task<IEnumerable<DevGroupGetListOutput>> GetListAsync(DevGroupGetListInput input)
         {
             var list = await _devGroupRepository.Select
-                .WhereIf(!string.IsNullOrEmpty(input.Name), a=>a.Name == input.Name)
+                .WhereIf(input.Id > 0, a => a.Id == input.Id)
+                .WhereIf(!string.IsNullOrEmpty(input.Name), a => a.Name == input.Name)
                 .OrderByDescending(a => a.Id)
                 .ToListAsync<DevGroupGetListOutput>();
             return list;
@@ -75,20 +76,20 @@ namespace ZhonTai.Module.Dev.Services.DevGroup
             var filter = input.Filter;
             var list = await _devGroupRepository.Select
                 .WhereDynamicFilter(input.DynamicFilter)
-                .WhereIf(filter !=null && !string.IsNullOrEmpty(filter.Name), a=> a.Name != null && a.Name.Contains(filter.Name))
+                .WhereIf(filter != null && !string.IsNullOrEmpty(filter.Name), a => a.Name != null && a.Name.Contains(filter.Name))
                 .Count(out var total)
                 .OrderByDescending(c => c.Id)
                 .Page(input.CurrentPage, input.PageSize)
                 .ToListAsync<DevGroupGetPageOutput>();
-        
+
 
             //关联查询代码
 
             var data = new PageOutput<DevGroupGetPageOutput> { List = list, Total = total };
-        
+
             return data;
         }
-        
+
 
         /// <summary>
         /// 新增
@@ -142,7 +143,7 @@ namespace ZhonTai.Module.Dev.Services.DevGroup
         [HttpPut]
         public async Task<bool> BatchDeleteAsync(long[] ids)
         {
-            return await _devGroupRepository.Where(w=>ids.Contains(w.Id)).ToDelete().ExecuteAffrowsAsync() > 0;
+            return await _devGroupRepository.Where(w => ids.Contains(w.Id)).ToDelete().ExecuteAffrowsAsync() > 0;
         }
 
         /// <summary>
