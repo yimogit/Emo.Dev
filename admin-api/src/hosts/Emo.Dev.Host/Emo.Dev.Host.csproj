@@ -45,7 +45,6 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
-
     <Target Name="AfterTargetsPublish" AfterTargets="Publish">
 		<ItemGroup>
 			<PackageReferenceFiles Include="*\*\*\*.xml" />

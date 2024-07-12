@@ -2,7 +2,6 @@
   <el-card shadow="never" style="margin-top: 8px" body-style="padding:0px;" class="my-fill">
     <template #header>
       <el-input v-model="state.filterText" placeholder="筛选模板" clearable />
-
     </template>
     <el-scrollbar v-loading="state.loading" height="100%" max-height="100%" :always="false"
       wrap-style="padding:var(--el-card-padding)">
@@ -112,19 +111,19 @@ const initData = async () => {
   })
   state.loading = false
   if (res?.success && res.data && res.data.length > 0) {
-    state.treeData = res.data.map(s => {
+    state.treeData = res.data.map((s:DevProjectGenPreviewMenuOutput) => {
       return {
         id: s.groupId,
         name: s.groupName,
         isGroup: true,
-        children: s.templateList.map(s2 => {
+        children: s.templateList?.map(s2 => {
           return {
             id: s2.templateId,
             name: s2.templateName,
             parentId: s2.groupId,
           }
         })
-      }
+      } as DevProjectGenPreviewMenuOutput
     })
     if (state.treeData.length > 0 && props.selectFirstNode) {
       nextTick(() => {

@@ -179,7 +179,7 @@ const onEdit = (row: DevProjectGenGetOutput) => {
 
 const onDelete = (row: DevProjectGenGetOutput) => {
   proxy.$modal
-    .confirmDelete(`确定要删除【${row.name}】?`)
+    .confirmDelete(`确定要删除【${row.projectId_Text}】?`)
     .then(async () => {
       await new DevProjectGenApi().delete({ id: row.id }, { loading: true, showSuccessMessage: true })
       onQuery()
@@ -224,7 +224,7 @@ const listTableToggleSelection = async (row: any) => {
 }
 
 
-const onPreview = async (row: DevProjectGetOutput) => {
+const onPreview = async (row: DevProjectGenGetOutput) => {
   //预览跳转到页面，查看模板组下的模板及生成的代码
   router.push({
     path: '/dev/dev-project-gen/preview', query: {
@@ -234,16 +234,15 @@ const onPreview = async (row: DevProjectGetOutput) => {
   })
 }
 
-const genCode = async (row: DevProjectGetOutput) => {
-  new DevProjectGenApi().down({ projectId: row.projectId, groupIds: row.groupIds_Values }, {
+const genCode = async (row: DevProjectGenGetOutput) => {
+  new DevProjectGenApi().down({ projectId: row.projectId, groupIds: row.groupIds_Values?.map(s => Number(s)) }, {
     loading: false,
     showErrorMessage: false,
     format: 'blob'
   })
     .then((res) => {
-      console.log(res)
       const a = document.createElement('a');
-      a.href = URL.createObjectURL(res);
+      a.href = URL.createObjectURL(res as Blob);
       a.download = '源码.zip';
       a.click();
     });

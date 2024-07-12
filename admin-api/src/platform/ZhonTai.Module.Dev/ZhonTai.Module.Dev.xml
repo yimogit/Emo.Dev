@@ -24,6 +24,11 @@
             默认域
             </summary>
         </member>
+        <member name="F:ZhonTai.Module.Dev.Core.Consts.DevConsts.InitFilePath">
+            <summary>
+            初始化文件路径
+            </summary>
+        </member>
         <member name="T:ZhonTai.Module.Dev.Core.Consts.DbKeys">
             <summary>
             数据库键名
@@ -2557,6 +2562,17 @@
             <summary>
             字段信息
             </summary>
+        </member>
+        <member name="M:ZhonTai.Admin.Repositories.CustomSyncData.InitModuleAsync``1(IFreeSql,FreeSql.IRepositoryUnitOfWork,ZhonTai.Admin.Core.Configs.DbConfig,ZhonTai.Admin.Core.Configs.AppConfig,System.String)">
+            <summary>
+            初始化模块
+            </summary>
+            <param name="db"></param>
+            <param name="unitOfWork"></param>
+            <param name="dbConfig"></param>
+            <param name="appConfig"></param>
+            <param name="path">同步目录</param>
+            <returns></returns>
         </member>
         <member name="M:CodeGenFieldEntityExtension.IsTextColumn(ZhonTai.Module.Dev.Domain.CodeGen.CodeGenFieldEntity)">
             <summary>
