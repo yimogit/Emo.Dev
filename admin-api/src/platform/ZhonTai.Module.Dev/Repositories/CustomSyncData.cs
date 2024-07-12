@@ -20,29 +20,29 @@ namespace ZhonTai.Admin.Repositories;
 public class CustomSyncData : SyncData, ISyncData
 {
     /// <summary>
-    /// 同步模板数据
+    /// 同步实体数据
     /// </summary>
     /// <param name="db"></param>
     /// <param name="unitOfWork"></param>
-    /// <param name="dbConfig"></param>
-    /// <param name="appConfig"></param>
-    /// <param name="path">同步目录</param>
+    /// <param name="dbConfig">模块数据库配置</param>
+    /// <param name="appConfig">应用配置</param>
+    /// <param name="readPath">读取数据路径 InitData/xxx </param>
     /// <returns></returns>
-    private async Task InitModuleAsync<TEntity>(IFreeSql db, IRepositoryUnitOfWork unitOfWork, DbConfig dbConfig, AppConfig appConfig, string path) where TEntity : EntityBase, new()
+    public virtual async Task SyncEntityAsync<T>(IFreeSql db, IRepositoryUnitOfWork unitOfWork, DbConfig dbConfig, AppConfig appConfig, string readPath) where T : EntityBase, new()
     {
-        var tableName = GetTableName<TEntity>();
+        var tableName = GetTableName<T>();
         try
         {
             if (!IsSyncData(tableName, dbConfig))
             {
                 return;
             }
-            var isTenant = appConfig.Tenant && typeof(TEntity).IsAssignableFrom(typeof(EntityTenant));
-            var rep = db.GetRepository<TEntity>();
+            var isTenant = appConfig.Tenant && typeof(T).IsAssignableFrom(typeof(EntityTenant));
+            var rep = db.GetRepository<T>();
             rep.UnitOfWork = unitOfWork;
 
             //数据列表
-            var dataList = GetData<TEntity>(isTenant, path);
+            var dataList = GetData<T>(isTenant, readPath);
 
             if (!(dataList?.Length > 0))
             {
@@ -93,13 +93,13 @@ public class CustomSyncData : SyncData, ISyncData
         {
             //读取数据目录
             var readPath = DevConsts.InitFilePath;
-            await InitModuleAsync<DevGroupEntity>(db, unitOfWork, dbConfig, appConfig, readPath);
-            await InitModuleAsync<DevTemplateEntity>(db, unitOfWork, dbConfig, appConfig, readPath);
-            await InitModuleAsync<DevProjectEntity>(db, unitOfWork, dbConfig, appConfig, readPath);
-            await InitModuleAsync<DevProjectModelEntity>(db, unitOfWork, dbConfig, appConfig, readPath);
-            await InitModuleAsync<DevProjectModelFieldEntity>(db, unitOfWork, dbConfig, appConfig, readPath);
-            await InitModuleAsync<DevProjectGenEntity>(db, unitOfWork, dbConfig, appConfig, readPath);
-            await InitModuleAsync<CodeGenEntity>(db, unitOfWork, dbConfig, appConfig, readPath);
+            await SyncEntityAsync<DevGroupEntity>(db, unitOfWork, dbConfig, appConfig, readPath);
+            await SyncEntityAsync<DevTemplateEntity>(db, unitOfWork, dbConfig, appConfig, readPath);
+            await SyncEntityAsync<DevProjectEntity>(db, unitOfWork, dbConfig, appConfig, readPath);
+            await SyncEntityAsync<DevProjectModelEntity>(db, unitOfWork, dbConfig, appConfig, readPath);
+            await SyncEntityAsync<DevProjectModelFieldEntity>(db, unitOfWork, dbConfig, appConfig, readPath);
+            await SyncEntityAsync<DevProjectGenEntity>(db, unitOfWork, dbConfig, appConfig, readPath);
+            await SyncEntityAsync<CodeGenEntity>(db, unitOfWork, dbConfig, appConfig, readPath);
 
             unitOfWork.Commit();
         }

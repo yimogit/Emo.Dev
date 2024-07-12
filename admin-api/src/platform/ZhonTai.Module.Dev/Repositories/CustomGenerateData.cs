@@ -17,19 +17,28 @@ namespace ZhonTai.Admin.Repositories;
 
 public class CustomGenerateData : GenerateData, IGenerateData
 {
-    public virtual async Task InitModuleAsync<TEntity>(IFreeSql db, AppConfig appConfig, string path) where TEntity : EntityBase, new()
+    /// <summary>
+    /// 保存实体数据
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="db"></param>
+    /// <param name="appConfig">应用配置</param>
+    /// <param name="outPath">输出路径 InitData/xxx </param>
+    /// <returns></returns>
+    protected virtual async Task SaveEntityAsync<T>(IFreeSql db, AppConfig appConfig, string outPath) where T : EntityBase, new()
     {
-        var modules = await db.Queryable<TEntity>().ToListAsync();
+        var modules = await db.Queryable<T>().ToListAsync();
         //是否多租户
-        var isTenant = appConfig.Tenant && typeof(TEntity).IsAssignableFrom(typeof(EntityTenant));
+        var isTenant = appConfig.Tenant && typeof(T).IsAssignableFrom(typeof(EntityTenant));
         if (isTenant)
         {
             var tenantIds = await db.Queryable<TenantEntity>().ToListAsync(a => a.Id);
-            SaveDataToJsonFile<TEntity>(modules.Where(a => (a as EntityTenant).TenantId > 0 && tenantIds.Contains((a as EntityTenant).TenantId.Value)), isTenant, path);
+            SaveDataToJsonFile<T>(modules.Where(a => (a as EntityTenant).TenantId > 0 && tenantIds.Contains((a as EntityTenant).TenantId.Value)), isTenant, outPath);
         }
 
-        SaveDataToJsonFile<TEntity>(modules, isTenant, path);
+        SaveDataToJsonFile<T>(modules, isTenant, outPath);
     }
+
     /// <summary>
     /// 生成数据到InitData/Dev 手动新建Dev目录
     /// </summary>
@@ -40,12 +49,12 @@ public class CustomGenerateData : GenerateData, IGenerateData
     {
         //生成数据目录
         var outPath = DevConsts.InitFilePath;
-        await InitModuleAsync<DevGroupEntity>(db, appConfig, outPath);
-        await InitModuleAsync<DevTemplateEntity>(db, appConfig, outPath);
-        await InitModuleAsync<DevProjectEntity>(db, appConfig, outPath);
-        await InitModuleAsync<DevProjectModelEntity>(db, appConfig, outPath);
-        await InitModuleAsync<DevProjectModelFieldEntity>(db, appConfig, outPath);
-        await InitModuleAsync<DevProjectGenEntity>(db, appConfig, outPath);
-        await InitModuleAsync<CodeGenEntity>(db, appConfig, outPath);
+        await SaveEntityAsync<DevGroupEntity>(db, appConfig, outPath);
+        await SaveEntityAsync<DevTemplateEntity>(db, appConfig, outPath);
+        await SaveEntityAsync<DevProjectEntity>(db, appConfig, outPath);
+        await SaveEntityAsync<DevProjectModelEntity>(db, appConfig, outPath);
+        await SaveEntityAsync<DevProjectModelFieldEntity>(db, appConfig, outPath);
+        await SaveEntityAsync<DevProjectGenEntity>(db, appConfig, outPath);
+        await SaveEntityAsync<CodeGenEntity>(db, appConfig, outPath);
     }
 }

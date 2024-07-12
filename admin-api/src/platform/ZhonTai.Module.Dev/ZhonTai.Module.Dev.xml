@@ -2563,15 +2563,42 @@
             字段信息
             </summary>
         </member>
-        <member name="M:ZhonTai.Admin.Repositories.CustomSyncData.InitModuleAsync``1(IFreeSql,FreeSql.IRepositoryUnitOfWork,ZhonTai.Admin.Core.Configs.DbConfig,ZhonTai.Admin.Core.Configs.AppConfig,System.String)">
+        <member name="M:ZhonTai.Admin.Repositories.CustomGenerateData.SaveEntityAsync``1(IFreeSql,ZhonTai.Admin.Core.Configs.AppConfig,System.String)">
             <summary>
-            初始化模块
+            保存实体数据
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="appConfig">应用配置</param>
+            <param name="outPath">输出路径 InitData/xxx </param>
+            <returns></returns>
+        </member>
+        <member name="M:ZhonTai.Admin.Repositories.CustomGenerateData.GenerateDataAsync(IFreeSql,ZhonTai.Admin.Core.Configs.AppConfig)">
+            <summary>
+            生成数据到InitData/Dev 手动新建Dev目录
+            </summary>
+            <param name="db"></param>
+            <param name="appConfig"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ZhonTai.Admin.Repositories.CustomSyncData.SyncEntityAsync``1(IFreeSql,FreeSql.IRepositoryUnitOfWork,ZhonTai.Admin.Core.Configs.DbConfig,ZhonTai.Admin.Core.Configs.AppConfig,System.String)">
+            <summary>
+            同步实体数据
             </summary>
             <param name="db"></param>
             <param name="unitOfWork"></param>
+            <param name="dbConfig">模块数据库配置</param>
+            <param name="appConfig">应用配置</param>
+            <param name="readPath">读取数据路径 InitData/xxx </param>
+            <returns></returns>
+        </member>
+        <member name="M:ZhonTai.Admin.Repositories.CustomSyncData.SyncDataAsync(IFreeSql,ZhonTai.Admin.Core.Configs.DbConfig,ZhonTai.Admin.Core.Configs.AppConfig)">
+            <summary>
+            同步InitData/Dev/*.json数据
+            </summary>
+            <param name="db"></param>
             <param name="dbConfig"></param>
             <param name="appConfig"></param>
-            <param name="path">同步目录</param>
             <returns></returns>
         </member>
         <member name="M:CodeGenFieldEntityExtension.IsTextColumn(ZhonTai.Module.Dev.Domain.CodeGen.CodeGenFieldEntity)">
