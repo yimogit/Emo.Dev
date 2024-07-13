@@ -478,6 +478,8 @@ export interface DevProjectGenPreviewMenuInput {
   projectId?: number
   /** 模板组 */
   groupIds?: number[] | null
+  /** 模板状态 */
+  templateStatus?: boolean | null
 }
 
 export interface DevProjectGenPreviewMenuOutput {
@@ -507,6 +509,8 @@ export interface DevProjectGenPreviewTemplateOutput {
   templateName?: string | null
   /** 模板生成路径 */
   tempaltePath?: string | null
+  /** 是否启用 */
+  isEnable?: boolean
 }
 
 /** 项目生成更新数据输入 */

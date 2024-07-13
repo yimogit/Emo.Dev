@@ -1443,6 +1443,11 @@
             模板Ids
             </summary>
         </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Input.DevProjectGenGenerateInput.IsPreview">
+            <summary>
+            是否是预览
+            </summary>
+        </member>
         <member name="T:ZhonTai.Module.Dev.Services.DevProjectGen.Input.DevProjectGenPreviewMenuInput">
             <summary>
             项目生成预览
@@ -1456,6 +1461,11 @@
         <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Input.DevProjectGenPreviewMenuInput.GroupIds">
             <summary>
             模板组
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Input.DevProjectGenPreviewMenuInput.TemplateStatus">
+            <summary>
+            模板状态
             </summary>
         </member>
         <member name="T:ZhonTai.Module.Dev.Services.DevProjectGen.Input.DevProjectGenTemplateInput">
@@ -1521,6 +1531,11 @@
         <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Output.DevProjectGenPreviewTemplateOutput.TempaltePath">
             <summary>
             模板生成路径
+            </summary>
+        </member>
+        <member name="P:ZhonTai.Module.Dev.Services.DevProjectGen.Output.DevProjectGenPreviewTemplateOutput.IsEnable">
+            <summary>
+            是否启用
             </summary>
         </member>
         <member name="T:ZhonTai.Module.Dev.Services.DevProjectModelField.DevProjectModelFieldService">

@@ -20,5 +20,10 @@ namespace ZhonTai.Module.Dev.Services.DevProjectGen.Input
         /// 模板组
         /// </summary>
         public List<long> GroupIds { get; set; }
+
+        /// <summary>
+        /// 模板状态
+        /// </summary>
+        public bool? TemplateStatus { get; set; }
     }
 }

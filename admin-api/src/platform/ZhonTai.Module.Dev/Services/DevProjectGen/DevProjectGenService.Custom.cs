@@ -67,12 +67,14 @@ namespace ZhonTai.Module.Dev.Services.DevProjectGen
             var groupIds = list.Select(s => s.GroupId).ToList();
             var templates = await devTemplateRepository.Select
                 .Where(s => groupIds.Contains(s.GroupId))
+                .WhereIf(input.TemplateStatus.HasValue, s => s.IsEnable == input.TemplateStatus)
                 .ToListAsync<DevProjectGenPreviewTemplateOutput>(s => new DevProjectGenPreviewTemplateOutput()
                 {
                     GroupId = s.GroupId,
                     TemplateId = s.Id,
                     TemplateName = s.Name,
                     TempaltePath = s.OutTo,
+                    IsEnable = s.IsEnable
                 });
             //查询分组下模板
             list.ForEach(s =>
@@ -147,8 +149,8 @@ namespace ZhonTai.Module.Dev.Services.DevProjectGen
                     if (!model.IsEnable) continue;
                     foreach (var tpl in templates)
                     {
-                        //模板是否禁用
-                        if (!tpl.IsEnable) continue;
+                        //模板是否禁用,预览时跳过禁用判断
+                        if (!input.IsPreview && !tpl.IsEnable) continue;
                         if (string.IsNullOrEmpty(tpl.OutTo))
                         {
                             errors.Add($"生成【{tpl.Name}】输出路径为空");

@@ -1,7 +1,20 @@
 <template>
   <el-card shadow="never" style="margin-top: 8px" body-style="padding:0px;" class="my-fill">
     <template #header>
-      <el-input v-model="state.filterText" placeholder="筛选模板" clearable />
+      <el-row justify="space-between" align="middle" :gutter="10">
+        <el-col :span="18">
+          <el-input v-model="state.filterText" placeholder="筛选模板" clearable />
+        </el-col>
+        <el-col :span="6">
+          <div @click.stop="displayTemplateStatus" :title="state.templateStatus ? '显示所有模板' : '隐藏未启用模板'"
+            class="cursor-pointer">
+            <el-icon>
+              <ele-Hide v-if="state.templateStatus == null" />
+              <ele-View v-else />
+            </el-icon>
+          </div>
+        </el-col>
+      </el-row>
     </template>
     <el-scrollbar v-loading="state.loading" height="100%" max-height="100%" :always="false"
       wrap-style="padding:var(--el-card-padding)">
@@ -9,18 +22,32 @@
         :filter-node-method="onFilterNode" highlight-current check-strictly default-expand-all render-after-expand
         :expand-on-click-node="false" v-bind="$attrs" @node-click="onNodeClick" @check-change="onCheckChange">
         <template #default="{ node, data }">
-          <span class="custom-tree-node">
+          <div style="width: 100%;display: flex;justify-content: space-between;">
+
+            <span title="点击图标可编辑模板">
+              <el-icon class="color-primary">
+                <ele-CircleCheck v-if="data.isEnable" />
+              </el-icon>
+              {{ node.label }}</span>
             <span v-if="!data.isGroup">
-              <el-icon class="el-icon--right" @click.stop="editTemplate(node, data)">
+              <el-icon @click.stop="editTemplate(node, data)" title="编辑模板">
                 <ele-Edit />
               </el-icon>
             </span>
-            <span title="点击图标可编辑模板">{{ node.label }}</span>
-          </span>
+            <span v-if="data.isGroup">
+              <el-icon @click.stop="addTemplate(node, data)" title="添加模板">
+                <ele-Plus />
+              </el-icon>
+              <el-icon @click.stop="editGroup(node, data)" title="编辑分组">
+                <ele-Edit />
+              </el-icon>
+            </span>
+          </div>
         </template>
       </el-tree>
     </el-scrollbar>
-    <dev-template-form ref="devTemplateFormRef" :title="'编辑模板'"></dev-template-form>
+    <dev-template-form ref="devTemplateFormRef"></dev-template-form>
+    <dev-group-form ref="devGroupFormRef"></dev-group-form>
   </el-card>
 </template>
 
@@ -35,6 +62,7 @@ import { listToTree } from '/@/utils/tree'
 import { ElTree } from 'element-plus'
 // 引入组件
 const DevTemplateForm = defineAsyncComponent(() => import('../../dev-template/components/dev-template-form.vue'))
+const DevGroupForm = defineAsyncComponent(() => import('../../dev-group/components/dev-group-form.vue'))
 
 interface Props {
   modelValue: number[] | null | undefined
@@ -51,12 +79,14 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const devTemplateFormRef = ref()
+const devGroupFormRef = ref()
 const menuRef = ref<InstanceType<typeof ElTree>>()
 const state = reactive({
   loading: false,
   filterText: '',
   treeData: [] as Array<DevProjectGenPreviewMenuOutput>,
   lastKey: 0,
+  templateStatus: null
 })
 
 watch(
@@ -76,6 +106,10 @@ onMounted(() => {
       let node = menuRef.value?.getNode(state.lastKey)
       emits('node-click', node?.data)
     }
+  })
+  eventBus.off('refreshDevGroup')
+  eventBus.on('refreshDevGroup', async () => {
+    initData()
   })
 })
 
@@ -106,12 +140,12 @@ const onCheckChange = () => {
 
 const initData = async () => {
   state.loading = true
-  const res = await new DevProjectGenApi().getPreviewMenu({ projectId: props.projectId, groupIds: props.groupIds }).catch(() => {
+  const res = await new DevProjectGenApi().getPreviewMenu({ projectId: props.projectId, groupIds: props.groupIds, templateStatus: state.templateStatus }).catch(() => {
     state.loading = false
   })
   state.loading = false
   if (res?.success && res.data && res.data.length > 0) {
-    state.treeData = res.data.map((s:DevProjectGenPreviewMenuOutput) => {
+    state.treeData = res.data.map((s: DevProjectGenPreviewMenuOutput) => {
       return {
         id: s.groupId,
         name: s.groupName,
@@ -121,6 +155,7 @@ const initData = async () => {
             id: s2.templateId,
             name: s2.templateName,
             parentId: s2.groupId,
+            isEnable: s2.isEnable
           }
         })
       } as DevProjectGenPreviewMenuOutput
@@ -139,7 +174,29 @@ const initData = async () => {
 const editTemplate = (node, data) => {
   devTemplateFormRef.value.open({
     id: data.id
+  }, {
+    title: '编辑模板:' + data.name
   })
+}
+//添加模板
+const addTemplate = (node, data) => {
+  devTemplateFormRef.value.open({}, {
+    title: '添加模板',
+    groupId: data.id
+  })
+}
+//编辑分组
+const editGroup = (node, data) => {
+  devGroupFormRef.value.open({
+    id: data.id
+  }, {
+    title: '编辑分组:' + data.name
+  })
+}
+//模板状态切换
+const displayTemplateStatus = () => {
+  state.templateStatus = state.templateStatus == null ? true : null
+  initData()
 }
 
 defineExpose({

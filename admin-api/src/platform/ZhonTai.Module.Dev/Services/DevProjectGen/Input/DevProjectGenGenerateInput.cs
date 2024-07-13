@@ -26,5 +26,10 @@ namespace ZhonTai.Module.Dev.Services.DevProjectGen.Input
         /// 模板Ids
         /// </summary>
         public List<long> TemplateIds { get; set; } = new List<long>();
+
+        /// <summary>
+        /// 是否是预览
+        /// </summary>
+        public bool IsPreview { get; set; }
     }
 }

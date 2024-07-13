@@ -61,6 +61,7 @@ const state = reactive({
     projectId: null,
     groupIds: null,
     templateIds: null,
+    isPreview: true
   } as any,
   previewData: {
     path: null,
@@ -70,7 +71,7 @@ const state = reactive({
 
 onMounted(() => {
   state.filter.projectId = route.query.projectId
-  state.filter.groupIds = route.query.groupIds
+  state.filter.groupIds = route.query.groupIds?.split(',')
 })
 
 onBeforeMount(() => {

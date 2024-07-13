@@ -1,7 +1,7 @@
 ﻿<template>
   <div>
-    <el-dialog v-model="state.showDialog" :title="title" draggable destroy-on-close :close-on-click-modal="false"
-      :close-on-press-escape="false" class="my-dialog-model" :overflow="true">
+    <el-dialog v-model="state.showDialog" :title="state.openConfig.title || title" draggable destroy-on-close
+      :close-on-click-modal="false" :close-on-press-escape="false" class="my-dialog-model" :overflow="true">
       <el-form ref="formRef" :model="form" label-width="auto" @submit="onSure" v-zoom="'.my-dialog-model'">
         <el-row :gutter="20">
           <el-col :span="12" :xs="24">
@@ -112,6 +112,9 @@ const { proxy } = getCurrentInstance() as any
 
 const formRef = ref()
 const state = reactive({
+  openConfig: {
+    title: ''
+  },
   showDialog: false,
   sureLoading: false,
   form: {} as DevTemplateAddInput | DevTemplateUpdateInput | any,
@@ -120,12 +123,14 @@ const state = reactive({
 const { form } = toRefs(state)
 
 // 打开对话框
-const open = async (row: any = {}) => {
-
+const open = async (row: any = {}, config: any) => {
+  if (config) {
+    state.openConfig = Object.assign(state.openConfig, config)
+  }
   getDevGroupList();
 
 
-  if (row.id > 0) {
+  if (row?.id > 0) {
     const res = await new DevTemplateApi().get({ id: row.id }, { loading: true }).catch(() => {
       proxy.$modal.closeLoading()
     })

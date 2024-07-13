@@ -229,7 +229,7 @@ const onPreview = async (row: DevProjectGenGetOutput) => {
   router.push({
     path: '/dev/dev-project-gen/preview', query: {
       projectId: row.projectId,
-      groupIds: row.groupIds_Values
+      groupIds: row.groupIds
     }
   })
 }
